@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ozirion Dev</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .glass { backdrop-filter: blur(12px); background: rgba(255,255,255,0.05); }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-6 fixed w-full z-50 glass">
+    <div class="flex items-center gap-3">
+      <!-- IMPORTANT: remplace 'logo.png' par le nom EXACT de ton fichier -->
+      <img src="./logo.png" alt="logo" class="w-10 h-10 object-contain">
+      <h1 class="text-xl font-bold">Ozirion Dev</h1>
+    </div>
+    <nav class="space-x-6 text-sm">
+      <a href="#services" class="hover:text-blue-400">Services</a>
+      <a href="#projects" class="hover:text-blue-400">Projets</a>
+      <a href="#contact" class="hover:text-blue-400">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="h-screen flex flex-col justify-center items-center text-center px-4">
+    <h2 class="text-5xl font-bold mb-6">Crée ton site. Attire des clients.</h2>
+    <p class="text-gray-400 mb-8 max-w-xl">Je développe des sites modernes optimisés pour générer des clients automatiquement.</p>
+    <a href="#contact" class="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-2xl text-lg transition">Commencer maintenant</a>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="py-20 px-6">
+    <h3 class="text-4xl font-bold text-center mb-12">Services</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="glass p-8 rounded-2xl hover:scale-105 transition">
+        <h4 class="text-xl font-bold mb-3">Sites Web</h4>
+        <p class="text-gray-400">Sites rapides qui transforment les visiteurs en clients.</p>
+      </div>
+      <div class="glass p-8 rounded-2xl hover:scale-105 transition">
+        <h4 class="text-xl font-bold mb-3">Bots</h4>
+        <p class="text-gray-400">Bots Discord utiles pour automatiser et gérer.</p>
+      </div>
+      <div class="glass p-8 rounded-2xl hover:scale-105 transition">
+        <h4 class="text-xl font-bold mb-3">Automatisation</h4>
+        <p class="text-gray-400">Scripts pour gagner du temps et augmenter les revenus.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-20 px-6 bg-black">
+    <h3 class="text-4xl font-bold text-center mb-12">Projets</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="glass p-6 rounded-2xl hover:scale-105 transition">
+        <h4 class="font-bold text-lg">Site restaurant premium</h4>
+        <p class="text-gray-400">Réservation en ligne + visibilité Google.</p>
+      </div>
+      <div class="glass p-6 rounded-2xl hover:scale-105 transition">
+        <h4 class="font-bold text-lg">Bot Discord communauté</h4>
+        <p class="text-gray-400">Automatisation complète + modération.</p>
+      </div>
+      <div class="glass p-6 rounded-2xl hover:scale-105 transition">
+        <h4 class="font-bold text-lg">Landing page business</h4>
+        <p class="text-gray-400">Page optimisée pour convertir en clients.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulaire (IMPORTANT POUR CLIENTS) -->
+  <section class="py-20 px-6 text-center">
+    <h3 class="text-3xl font-bold mb-6">Obtenir un site rapidement</h3>
+    <form action="https://formspree.io/f/mykleodk" method="POST" class="max-w-md mx-auto space-y-4">
+      <input type="text" name="name" placeholder="Nom" class="w-full p-3 rounded bg-gray-800" required>
+      <input type="email" name="email" placeholder="Email" class="w-full p-3 rounded bg-gray-800" required>
+      <textarea name="message" placeholder="Votre besoin" class="w-full p-3 rounded bg-gray-800" required></textarea>
+      <button class="bg-blue-500 px-6 py-3 rounded-2xl hover:bg-blue-600 transition w-full">Envoyer</button>
+    </form>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 px-6 text-center">
+    <h3 class="text-4xl font-bold mb-6">Contact direct</h3>
+    <a href="mailto:tonemail@gmail.com" class="bg-blue-500 px-8 py-4 rounded-2xl hover:bg-blue-600 transition">Envoyer un email</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center p-6 text-gray-500">
+    © 2026 Ozirion Dev
+  </footer>
+
+</body>
+</html>
