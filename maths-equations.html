@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Équations simples - Mathématiques - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .input-exercise {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-exercise label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .input-exercise input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-exercise input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .input-exercise input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .input-exercise input.wrong {
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+        }
+
+        .input-exercise input.correct {
+            border-color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-equals"></i> Équations simples</h1>
+        <p>Mathématiques - Exercices interactifs</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="maths-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Exercise 1 -->
+            <div class="exercise-item" data-exercise="1">
+                <h3><i class="fas fa-equals"></i> Exercice 1 : Équation simple</h3>
+                <p class="exercise-question">Résous l'équation : x + 5 = 12</p>
+                <div class="input-exercise">
+                    <label for="ex1-answer">Ta réponse (x = ) :</label>
+                    <input type="number" id="ex1-answer" placeholder="Entre ta réponse..." step="1">
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> x = 7</p>
+                    <p><strong>Méthode :</strong></p>
+                    <p>On veut trouver x. On soustrait 5 des deux côtés :</p>
+                    <p>x + 5 - 5 = 12 - 5</p>
+                    <p>x = 7</p>
+                    <p><strong>Vérification :</strong> 7 + 5 = 12 ✅</p>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item" data-exercise="2">
+                <h3><i class="fas fa-equals"></i> Exercice 2 : Équation avec soustraction</h3>
+                <p class="exercise-question">Résous l'équation : x - 3 = 8</p>
+                <div class="input-exercise">
+                    <label for="ex2-answer">Ta réponse (x = ) :</label>
+                    <input type="number" id="ex2-answer" placeholder="Entre ta réponse..." step="1">
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> x = 11</p>
+                    <p><strong>Méthode :</strong></p>
+                    <p>On veut trouver x. On ajoute 3 des deux côtés :</p>
+                    <p>x - 3 + 3 = 8 + 3</p>
+                    <p>x = 11</p>
+                    <p><strong>Vérification :</strong> 11 - 3 = 8 ✅</p>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item" data-exercise="3">
+                <h3><i class="fas fa-equals"></i> Exercice 3 : Équation avec multiplication</h3>
+                <p class="exercise-question">Résous l'équation : 3x = 15</p>
+                <div class="input-exercise">
+                    <label for="ex3-answer">Ta réponse (x = ) :</label>
+                    <input type="number" id="ex3-answer" placeholder="Entre ta réponse..." step="1">
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> x = 5</p>
+                    <p><strong>Méthode :</strong></p>
+                    <p>On veut trouver x. On divise par 3 des deux côtés :</p>
+                    <p>3x ÷ 3 = 15 ÷ 3</p>
+                    <p>x = 5</p>
+                    <p><strong>Vérification :</strong> 3 × 5 = 15 ✅</p>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item" data-exercise="4">
+                <h3><i class="fas fa-equals"></i> Exercice 4 : Équation avec division</h3>
+                <p class="exercise-question">Résous l'équation : x ÷ 4 = 6</p>
+                <div class="input-exercise">
+                    <label for="ex4-answer">Ta réponse (x = ) :</label>
+                    <input type="number" id="ex4-answer" placeholder="Entre ta réponse..." step="1">
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> x = 24</p>
+                    <p><strong>Méthode :</strong></p>
+                    <p>On veut trouver x. On multiplie par 4 des deux côtés :</p>
+                    <p>x ÷ 4 × 4 = 6 × 4</p>
+                    <p>x = 24</p>
+                    <p><strong>Vérification :</strong> 24 ÷ 4 = 6 ✅</p>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item" data-exercise="5">
+                <h3><i class="fas fa-equals"></i> Exercice 5 : Équation combinée</h3>
+                <p class="exercise-question">Résous l'équation : 2x + 4 = 14</p>
+                <div class="input-exercise">
+                    <label for="ex5-answer">Ta réponse (x = ) :</label>
+                    <input type="number" id="ex5-answer" placeholder="Entre ta réponse..." step="1">
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> x = 5</p>
+                    <p><strong>Méthode :</strong></p>
+                    <p>1) D'abord, on soustrait 4 : 2x = 14 - 4 = 10</p>
+                    <p>2) Puis on divise par 2 : x = 10 ÷ 2 = 5</p>
+                    <p><strong>Vérification :</strong> 2 × 5 + 4 = 10 + 4 = 14 ✅</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        document.querySelectorAll('.exercise-item').forEach(exercise => {
+            const inputField = exercise.querySelector('input');
+            const checkBtn = exercise.querySelector('.check-btn');
+            const correction = exercise.querySelector('.exercise-correction');
+            const exerciseId = exercise.dataset.exercise;
+
+            checkBtn.addEventListener('click', function() {
+                const userAnswer = parseFloat(inputField.value);
+                
+                if (isNaN(userAnswer)) {
+                    alert('Veuillez entrer une réponse.');
+                    return;
+                }
+
+                let isCorrect = false;
+                
+                if (exerciseId === '1') {
+                    isCorrect = userAnswer === 7;
+                } else if (exerciseId === '2') {
+                    isCorrect = userAnswer === 11;
+                } else if (exerciseId === '3') {
+                    isCorrect = userAnswer === 5;
+                } else if (exerciseId === '4') {
+                    isCorrect = userAnswer === 24;
+                } else if (exerciseId === '5') {
+                    isCorrect = userAnswer === 5;
+                }
+
+                inputField.classList.remove('wrong', 'correct');
+                
+                if (isCorrect) {
+                    inputField.classList.add('correct');
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('maths', 'equations', exerciseId, 1);
+                    }
+                } else {
+                    inputField.classList.add('wrong');
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('maths', 'equations', exerciseId, 0);
+                    }
+                }
+
+                correction.classList.add('show');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pourcentages - Mathématiques - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-percent"></i> Pourcentages</h1>
+        <p>Mathématiques - Exercices interactifs</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="maths-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Exercise 1 -->
+            <div class="exercise-item" data-exercise="1">
+                <h3><i class="fas fa-percent"></i> Exercice 1 : Pourcentage simple</h3>
+                <p class="exercise-question">50% de 80€ = ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">20€</div>
+                    <div class="exercise-option" data-correct="false">30€</div>
+                    <div class="exercise-option" data-correct="true">40€</div>
+                    <div class="exercise-option" data-correct="false">50€</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> 40€</p>
+                    <p><strong>Calcul :</strong> 50% signifie la moitié</p>
+                    <p>Donc 50% de 80€ = 80 ÷ 2 = 40€</p>
+                    <p><strong>Méthode générale :</strong> Pour calculer un pourcentage, on multiplie par le pourcentage divisé par 100.</p>
+                    <p>80 × (50/100) = 80 × 0,5 = 40€</p>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item" data-exercise="2">
+                <h3><i class="fas fa-percent"></i> Exercice 2 : 25%</h3>
+                <p class="exercise-question">25% de 200€ = ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">40€</div>
+                    <div class="exercise-option" data-correct="false">45€</div>
+                    <div class="exercise-option" data-correct="false">50€</div>
+                    <div class="exercise-option" data-correct="true">50€</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> 50€</p>
+                    <p><strong>Calcul :</strong> 25% signifie le quart</p>
+                    <p>Donc 25% de 200€ = 200 ÷ 4 = 50€</p>
+                    <p><strong>Méthode générale :</strong> 200 × (25/100) = 200 × 0,25 = 50€</p>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item" data-exercise="3">
+                <h3><i class="fas fa-percent"></i> Exercice 3 : 10%</h3>
+                <p class="exercise-question">10% de 150€ = ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">10€</div>
+                    <div class="exercise-option" data-correct="true">15€</div>
+                    <div class="exercise-option" data-correct="false">20€</div>
+                    <div class="exercise-option" data-correct="false">25€</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> 15€</p>
+                    <p><strong>Calcul :</strong> 10% signifie un dixième</p>
+                    <p>Donc 10% de 150€ = 150 ÷ 10 = 15€</p>
+                    <p><strong>Méthode générale :</strong> 150 × (10/100) = 150 × 0,1 = 15€</p>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item" data-exercise="4">
+                <h3><i class="fas fa-percent"></i> Exercice 4 : Réduction</h3>
+                <p class="exercise-question">Un article coûte 100€. Avec une réduction de 20%, quel est le nouveau prix ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">70€</div>
+                    <div class="exercise-option" data-correct="false">75€</div>
+                    <div class="exercise-option" data-correct="true">80€</div>
+                    <div class="exercise-option" data-correct="false">85€</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> 80€</p>
+                    <p><strong>Calcul :</strong></p>
+                    <p>Réduction = 100 × 20/100 = 100 × 0,2 = 20€</p>
+                    <p>Nouveau prix = 100 - 20 = 80€</p>
+                    <p><strong>Alternative :</strong> 100 × (1 - 0,2) = 100 × 0,8 = 80€</p>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item" data-exercise="5">
+                <h3><i class="fas fa-percent"></i> Exercice 5 : Augmentation</h3>
+                <p class="exercise-question">Un salaire est de 1200€. Avec une augmentation de 10%, quel est le nouveau salaire ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">1280€</div>
+                    <div class="exercise-option" data-correct="true">1320€</div>
+                    <div class="exercise-option" data-correct="false">1300€</div>
+                    <div class="exercise-option" data-correct="false">1350€</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> 1320€</p>
+                    <p><strong>Calcul :</strong></p>
+                    <p>Augmentation = 1200 × 10/100 = 1200 × 0,1 = 120€</p>
+                    <p>Nouveau salaire = 1200 + 120 = 1320€</p>
+                    <p><strong>Alternative :</strong> 1200 × (1 + 0,1) = 1200 × 1,1 = 1320€</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        document.querySelectorAll('.exercise-item').forEach(exercise => {
+            const options = exercise.querySelectorAll('.exercise-option');
+            const checkBtn = exercise.querySelector('.check-btn');
+            const correction = exercise.querySelector('.exercise-correction');
+            let selectedOption = null;
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedOption = this;
+                });
+            });
+
+            checkBtn.addEventListener('click', function() {
+                if (!selectedOption) {
+                    alert('Veuillez sélectionner une réponse.');
+                    return;
+                }
+
+                const isCorrect = selectedOption.dataset.correct === 'true';
+                const exerciseId = exercise.dataset.exercise;
+
+                options.forEach(opt => {
+                    opt.classList.remove('wrong', 'correct');
+                });
+
+                if (isCorrect) {
+                    selectedOption.classList.add('correct');
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('maths', 'pourcentages', exerciseId, 1);
+                    }
+                } else {
+                    selectedOption.classList.add('wrong');
+                    options.forEach(opt => {
+                        if (opt.dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('maths', 'pourcentages', exerciseId, 0);
+                    }
+                }
+
+                correction.classList.add('show');
+            });
+        });
+    </script>
+</body>
+</html>

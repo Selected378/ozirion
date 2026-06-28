@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physique-Chimie - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <button class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </button>
+            <button class="nav-btn btn-primary">
+                <i class="fas fa-user"></i>
+                Profil
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-atom"></i> Physique-Chimie</h1>
+        <p>Les sciences de la matière et de l'énergie - Exercices interactifs</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="index.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour à l'accueil
+            </a>
+
+            <!-- Exercise 1 -->
+            <div class="exercise-item" data-exercise="1">
+                <h3><i class="fas fa-bolt"></i> Exercice 1 : L'électricité</h3>
+                <p class="exercise-question">Dans un circuit, si une lampe grille, que se passe-t-il en série ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="true">Tout s'éteint</div>
+                    <div class="exercise-option" data-correct="false">Seule cette lampe s'éteint</div>
+                    <div class="exercise-option" data-correct="false">Rien ne change</div>
+                    <div class="exercise-option" data-correct="false">Le circuit explose</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Tout s'éteint</p>
+                    <p>Dans un circuit en série, tous les appareils sont branchés les uns à la suite des autres. Si l'un ne fonctionne plus (lampe grillée, fil coupé), le courant ne peut plus circuler et tout s'éteint. C'est comme une chaîne : si un maillon casse, la chaîne se rompt.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item" data-exercise="2">
+                <h3><i class="fas fa-temperature-high"></i> Exercice 2 : Les états de la matière</h3>
+                <p class="exercise-question">Quel est l'état de l'eau à 0°C ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="true">Solide</div>
+                    <div class="exercise-option" data-correct="false">Liquide</div>
+                    <div class="exercise-option" data-correct="false">Gazeux</div>
+                    <div class="exercise-option" data-correct="false">Plasma</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Solide</p>
+                    <p>À 0°C, l'eau gèle et passe de l'état liquide à l'état solide (glace). C'est le point de congélation de l'eau. En dessous de 0°C, l'eau reste solide. Au-dessus de 0°C, elle redevient liquide.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item" data-exercise="3">
+                <h3><i class="fas fa-weight"></i> Exercice 3 : La masse</h3>
+                <p class="exercise-question">Quel instrument mesure la masse ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Une règle</div>
+                    <div class="exercise-option" data-correct="true">Une balance</div>
+                    <div class="exercise-option" data-correct="false">Un thermomètre</div>
+                    <div class="exercise-option" data-correct="false">Un chronomètre</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Une balance</p>
+                    <p>La masse se mesure avec une balance, en grammes (g) ou kilogrammes (kg). La règle mesure les longueurs, le thermomètre mesure la température, et le chronomètre mesure le temps. Attention : ne pas confondre masse (balance) et poids (dynamomètre) !</p>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item" data-exercise="4">
+                <h3><i class="fas fa-toggle-on"></i> Exercice 4 : Le courant électrique</h3>
+                <p class="exercise-question">Quel est le rôle d'un interrupteur ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Produire du courant</div>
+                    <div class="exercise-option" data-correct="true">Arrêter ou laisser passer le courant</div>
+                    <div class="exercise-option" data-correct="false">Transformer le courant</div>
+                    <div class="exercise-option" data-correct="false">Mesurer le courant</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Arrêter ou laisser passer le courant</p>
+                    <p>L'interrupteur est un composant qui permet d'ouvrir ou de fermer un circuit électrique. Fermé, le courant passe et les appareils fonctionnent. Ouvert, le courant est coupé et les appareils s'éteignent. C'est le commandant du circuit !</p>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item" data-exercise="5">
+                <h3><i class="fas fa-filter"></i> Exercice 5 : Les mélanges</h3>
+                <p class="exercise-question">Comment séparer l'eau du sable ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="true">Filtration</div>
+                    <div class="exercise-option" data-correct="false">Distillation</div>
+                    <div class="exercise-option" data-correct="false">Décantation</div>
+                    <div class="exercise-option" data-correct="false">Évaporation</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Filtration</p>
+                    <p>La filtration permet de séparer un solide (sable) d'un liquide (eau). On utilise un filtre (papier filtre, tissu) qui retient les particules solides et laisse passer le liquide. Le sable reste sur le filtre, l'eau traverse. C'est comme un tamis !</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Script spécifique pour les exercices Physique-Chimie
+        document.querySelectorAll('.exercise-item').forEach(exercise => {
+            const options = exercise.querySelectorAll('.exercise-option');
+            const checkBtn = exercise.querySelector('.check-btn');
+            const correction = exercise.querySelector('.exercise-correction');
+            let selectedOption = null;
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedOption = this;
+                });
+            });
+
+            checkBtn.addEventListener('click', function() {
+                if (!selectedOption) {
+                    alert('Veuillez sélectionner une réponse.');
+                    return;
+                }
+
+                const isCorrect = selectedOption.dataset.correct === 'true';
+
+                options.forEach(opt => {
+                    opt.classList.remove('wrong', 'correct');
+                });
+
+                if (isCorrect) {
+                    selectedOption.classList.add('correct');
+                } else {
+                    selectedOption.classList.add('wrong');
+                    options.forEach(opt => {
+                        if (opt.dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+
+                correction.classList.add('show');
+            });
+        });
+    </script>
+</body>
+</html>

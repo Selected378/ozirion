@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La matière - Physique-Chimie - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-cubes"></i> La matière</h1>
+        <p>Physique-Chimie - Exercices interactifs</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="physique-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
+            <div class="exercise-item" data-exercise="1">
+                <h3><i class="fas fa-temperature-high"></i> Exercice 1 : Les états de la matière</h3>
+                <p class="exercise-question">Quel est l'état de l'eau à 0°C ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="true">Solide</div>
+                    <div class="exercise-option" data-correct="false">Liquide</div>
+                    <div class="exercise-option" data-correct="false">Gazeux</div>
+                    <div class="exercise-option" data-correct="false">Plasma</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Solide</p>
+                    <p>À 0°C, l'eau gèle et passe de l'état liquide à l'état solide (glace). C'est le point de congélation de l'eau. En dessous de 0°C, l'eau reste solide. Au-dessus de 0°C, elle redevient liquide.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item" data-exercise="2">
+                <h3><i class="fas fa-weight"></i> Exercice 2 : La masse</h3>
+                <p class="exercise-question">Quel instrument mesure la masse ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Une règle</div>
+                    <div class="exercise-option" data-correct="true">Une balance</div>
+                    <div class="exercise-option" data-correct="false">Un thermomètre</div>
+                    <div class="exercise-option" data-correct="false">Un chronomètre</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Une balance</p>
+                    <p>La masse se mesure avec une balance, en grammes (g) ou kilogrammes (kg). La règle mesure les longueurs, le thermomètre mesure la température, et le chronomètre mesure le temps. Attention : ne pas confondre masse (balance) et poids (dynamomètre) !</p>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item" data-exercise="3">
+                <h3><i class="fas fa-ruler"></i> Exercice 3 : Le volume</h3>
+                <p class="exercise-question">Comment mesure-t-on le volume d'un liquide ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Avec une balance</div>
+                    <div class="exercise-option" data-correct="true">Avec une éprouvette graduée</div>
+                    <div class="exercise-option" data-correct="false">Avec un thermomètre</div>
+                    <div class="exercise-option" data-correct="false">Avec une règle</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Avec une éprouvette graduée</p>
+                    <p>Le volume d'un liquide se mesure avec une éprouvette graduée en millilitres (mL) ou litres (L). On lit le volume en bas du ménisque (la courbure du liquide). Le volume s'exprime en unités de volume (mL, L, cm³, m³).</p>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item" data-exercise="4">
+                <h3><i class="fas fa-tint"></i> Exercice 4 : L'eau liquide</h3>
+                <p class="exercise-question">Quelle est la température de l'eau liquide ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">En dessous de 0°C</div>
+                    <div class="exercise-option" data-correct="true">Au-dessus de 0°C et en dessous de 100°C</div>
+                    <div class="exercise-option" data-correct="false">Au-dessus de 100°C</div>
+                    <div class="exercise-option" data-correct="false">Exactement à 0°C</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Au-dessus de 0°C et en dessous de 100°C</p>
+                    <p>L'eau est liquide entre 0°C et 100°C. En dessous de 0°C, elle est solide (glace). Au-dessus de 100°C, elle devient gazeuse (vapeur). À 0°C exactement, elle peut être solide ou liquide (en train de geler ou fondre).</p>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item" data-exercise="5">
+                <h3><i class="fas fa-compress-arrows-alt"></i> Exercice 5 : La masse volumique</h3>
+                <p class="exercise-question">Qu'est-ce qui flotte sur l'eau ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Un objet plus dense que l'eau</div>
+                    <div class="exercise-option" data-correct="true">Un objet moins dense que l'eau</div>
+                    <div class="exercise-option" data-correct="false">Un objet de même densité que l'eau</div>
+                    <div class="exercise-option" data-correct="false">Tous les objets</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Un objet moins dense que l'eau</p>
+                    <p>Un objet flotte s'il est moins dense que l'eau (sa masse volumique est plus petite). Le bois flotte car il est moins dense que l'eau. Le métal coule car il est plus dense. La densité compare la masse d'un objet à celle de l'eau.</p>
+                </div>
+            </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-fire"></i> Exercice 6 : La fusion</h3>
+                    <p class="exercise-question">Quel est le passage de l'état solide à l'état liquide ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="true">La fusion</div>
+                        <div class="exercise-option" data-correct="false">La solidification</div>
+                        <div class="exercise-option" data-correct="false">La vaporisation</div>
+                        <div class="exercise-option" data-correct="false">La liquéfaction</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> La fusion</p>
+                        <p>La fusion est le passage de l'état solide à l'état liquide (ex: la glace qui fond). La solidification est le contraire (liquide vers solide). La vaporisation est le passage du liquide au gaz. La liquéfaction est le passage du gaz au liquide.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-weight-hanging"></i> Exercice 7 : La masse</h3>
+                    <p class="exercise-question">Quel instrument mesure la masse ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Un thermomètre</div>
+                        <div class="exercise-option" data-correct="true">Une balance</div>
+                        <div class="exercise-option" data-correct="false">Une éprouvette</div>
+                        <div class="exercise-option" data-correct="false">Un chronomètre</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Une balance</p>
+                        <p>La masse se mesure avec une balance en grammes (g) ou kilogrammes (kg). La masse est la quantité de matière d'un objet. Elle ne change pas selon le lieu, contrairement au poids qui dépend de la gravité.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-cube"></i> Exercice 8 : Le volume solide</h3>
+                    <p class="exercise-question">Comment mesurer le volume d'un solide régulier ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="true">Avec ses dimensions (longueur × largeur × hauteur)</div>
+                        <div class="exercise-option" data-correct="false">Avec une balance</div>
+                        <div class="exercise-option" data-correct="false">Avec un thermomètre</div>
+                        <div class="exercise-option" data-correct="false">En le pesant</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Avec ses dimensions (longueur × largeur × hauteur)</p>
+                        <p>Pour un solide régulier (cube, pavé), on calcule le volume avec les dimensions : V = L × l × h. Le résultat est en cm³ ou m³. Pour un solide irrégulier, on utilise la méthode de l'eau dans une éprouvette.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-wind"></i> Exercice 9 : La vaporisation</h3>
+                    <p class="exercise-question">Qu'est-ce que la vaporisation ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Le passage du gaz au liquide</div>
+                        <div class="exercise-option" data-correct="true">Le passage du liquide au gaz</div>
+                        <div class="exercise-option" data-correct="false">Le passage du solide au liquide</div>
+                        <div class="exercise-option" data-correct="false">Le passage du solide au gaz</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Le passage du liquide au gaz</p>
+                        <p>La vaporisation est le passage de l'état liquide à l'état gazeux (ex: l'eau qui bout). Elle peut se faire par ébullition (à 100°C pour l'eau) ou par évaporation (à n'importe quelle température, comme l'eau qui sèche).</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-atom"></i> Exercice 10 : Les molécules</h3>
+                    <p class="exercise-question">De quoi est composée la matière ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">D'atomes seulement</div>
+                        <div class="exercise-option" data-correct="false">De molécules seulement</div>
+                        <div class="exercise-option" data-correct="true">D'atomes ou de molécules</div>
+                        <div class="exercise-option" data-correct="false">De vide</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> D'atomes ou de molécules</p>
+                        <p>La matière est composée d'atomes (seuls ou regroupés en molécules). Les atomes sont les plus petites particules d'un élément. Les molécules sont des assemblages d'atomes. Tout ce qui nous entoure est fait de matière.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        document.querySelectorAll('.exercise-item').forEach(exercise => {
+            const options = exercise.querySelectorAll('.exercise-option');
+            const checkBtn = exercise.querySelector('.check-btn');
+            const correction = exercise.querySelector('.exercise-correction');
+            let selectedOption = null;
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedOption = this;
+                });
+            });
+
+            checkBtn.addEventListener('click', function() {
+                if (!selectedOption) {
+                    alert('Veuillez sélectionner une réponse.');
+                    return;
+                }
+
+                const isCorrect = selectedOption.dataset.correct === 'true';
+                const exerciseId = exercise.dataset.exercise;
+
+                options.forEach(opt => {
+                    opt.classList.remove('wrong', 'correct');
+                });
+
+                if (isCorrect) {
+                    selectedOption.classList.add('correct');
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('physique', 'matiere', exerciseId, 1);
+                    }
+                } else {
+                    selectedOption.classList.add('wrong');
+                    options.forEach(opt => {
+                        if (opt.dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('physique', 'matiere', exerciseId, 0);
+                    }
+                }
+
+                correction.classList.add('show');
+            });
+        });
+
+        // Gestion de la pagination
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pages = document.querySelectorAll('.exercise-page');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePagination() {
+            pages.forEach((page, index) => {
+                if (index + 1 === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        updatePagination();
+    </script>
+</body>
+</html>

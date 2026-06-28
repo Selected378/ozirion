@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progression - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .progression-container {
+            padding: 8rem 2rem 4rem;
+        }
+
+        .progression-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .progression-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .progression-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .subject-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-card);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .subject-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            color: var(--dark-bg);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .subject-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .subject-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-header span {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-header .percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .categories-list {
+            margin-top: 1.5rem;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-item:last-child {
+            border-bottom: none;
+        }
+
+        .category-item span {
+            color: var(--text-secondary);
+        }
+
+        .category-item .cat-percentage {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .no-progress {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .no-progress i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <button class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </button>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Progression Container -->
+    <div class="progression-container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Retour à l'accueil
+        </a>
+
+        <div class="progression-header">
+            <h1><i class="fas fa-chart-line"></i> Ta Progression</h1>
+            <p>Suivi de tes résultats par matière</p>
+        </div>
+
+        <div class="subjects-grid" id="subjectsGrid">
+            <!-- Subjects will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2026 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        // Charger la progression
+        function loadProgression() {
+            const subjectsGrid = document.getElementById('subjectsGrid');
+            
+            if (!Auth.isLoggedIn()) {
+                subjectsGrid.innerHTML = `
+                    <div class="no-progress" style="grid-column: 1 / -1;">
+                        <i class="fas fa-lock"></i>
+                        <p>Connecte-toi pour voir ta progression</p>
+                        <a href="auth.html" style="display: inline-block; margin-top: 1rem; padding: 0.8rem 2rem; background: var(--gradient-1); border: none; border-radius: 10px; color: var(--dark-bg); text-decoration: none; font-weight: 600;">Se connecter</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const subjects = [
+                { id: 'svt', name: 'SVT', icon: 'fa-dna', categories: ['corps', 'sante', 'environnement', 'alimentation'], categoryNames: ['Le corps humain', 'Santé et prévention', 'Environnement', 'Alimentation'] },
+                { id: 'physique', name: 'Physique-Chimie', icon: 'fa-atom', categories: ['electricite', 'matiere', 'melanges', 'energie'], categoryNames: ['Électricité', 'La matière', 'Mélanges', 'Énergie'] },
+                { id: 'maths', name: 'Mathématiques', icon: 'fa-calculator', categories: ['calculs', 'equations', 'pourcentages', 'geometrie'], categoryNames: ['Calculs numériques', 'Équations simples', 'Pourcentages', 'Géométrie'] }
+            ];
+
+            let html = '';
+
+            subjects.forEach(subject => {
+                const progression = Auth.getSubjectProgression(subject.id);
+                let totalScore = 0;
+                let totalExercises = 0;
+                let categoriesHtml = '';
+
+                subject.categories.forEach((catId, index) => {
+                    if (progression && progression[catId]) {
+                        const catExercises = Object.values(progression[catId]);
+                        const catScore = catExercises.reduce((acc, ex) => acc + ex.score, 0);
+                        const catCount = catExercises.length;
+                        const catPercentage = catCount > 0 ? Math.round((catScore / catCount) * 5) : 0; // 20% per exercise = 5% per point
+                        
+                        totalScore += catScore;
+                        totalExercises += catCount;
+
+                        categoriesHtml += `
+                            <div class="category-item">
+                                <span>${subject.categoryNames[index]}</span>
+                                <span class="cat-percentage">${catPercentage}%</span>
+                            </div>
+                        `;
+                    } else {
+                        categoriesHtml += `
+                            <div class="category-item">
+                                <span>${subject.categoryNames[index]}</span>
+                                <span class="cat-percentage">0%</span>
+                            </div>
+                        `;
+                    }
+                });
+
+                const overallPercentage = totalExercises > 0 ? Math.round((totalScore / totalExercises) * 5) : 0;
+
+                html += `
+                    <div class="subject-card">
+                        <div class="subject-icon">
+                            <i class="fas ${subject.icon}"></i>
+                        </div>
+                        <h3>${subject.name}</h3>
+                        <div class="subject-progress">
+                            <div class="progress-header">
+                                <span>Progression globale</span>
+                                <span class="percentage">${overallPercentage}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${overallPercentage}%"></div>
+                            </div>
+                        </div>
+                        <div class="categories-list">
+                            ${categoriesHtml}
+                        </div>
+                    </div>
+                `;
+            });
+
+            subjectsGrid.innerHTML = html;
+        }
+
+        loadProgression();
+    </script>
+</body>
+</html>

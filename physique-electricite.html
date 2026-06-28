@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Électricité - Physique-Chimie - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-bolt"></i> Électricité</h1>
+        <p>Physique-Chimie - Exercices interactifs</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="physique-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
+            <div class="exercise-item" data-exercise="1">
+                <h3><i class="fas fa-bolt"></i> Exercice 1 : Circuit en série</h3>
+                <p class="exercise-question">Dans un circuit, si une lampe grille, que se passe-t-il en série ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="true">Tout s'éteint</div>
+                    <div class="exercise-option" data-correct="false">Seule cette lampe s'éteint</div>
+                    <div class="exercise-option" data-correct="false">Rien ne change</div>
+                    <div class="exercise-option" data-correct="false">Le circuit explose</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Tout s'éteint</p>
+                    <p>Dans un circuit en série, tous les appareils sont branchés les uns à la suite des autres. Si l'un ne fonctionne plus (lampe grillée, fil coupé), le courant ne peut plus circuler et tout s'éteint. C'est comme une chaîne : si un maillon casse, la chaîne se rompt.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item" data-exercise="2">
+                <h3><i class="fas fa-toggle-on"></i> Exercice 2 : L'interrupteur</h3>
+                <p class="exercise-question">Quel est le rôle d'un interrupteur ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Produire du courant</div>
+                    <div class="exercise-option" data-correct="true">Arrêter ou laisser passer le courant</div>
+                    <div class="exercise-option" data-correct="false">Transformer le courant</div>
+                    <div class="exercise-option" data-correct="false">Mesurer le courant</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Arrêter ou laisser passer le courant</p>
+                    <p>L'interrupteur est un composant qui permet d'ouvrir ou de fermer un circuit électrique. Fermé, le courant passe et les appareils fonctionnent. Ouvert, le courant est coupé et les appareils s'éteignent. C'est le commandant du circuit !</p>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item" data-exercise="3">
+                <h3><i class="fas fa-plug"></i> Exercice 3 : La prise électrique</h3>
+                <p class="exercise-question">Quelle est la tension d'une prise électrique en France ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">110 volts</div>
+                    <div class="exercise-option" data-correct="true">230 volts</div>
+                    <div class="exercise-option" data-correct="false">380 volts</div>
+                    <div class="exercise-option" data-correct="false">12 volts</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> 230 volts</p>
+                    <p>En France, la tension du secteur est de 230 volts alternatifs. C'est une tension dangereuse qui peut être mortelle. Il faut toujours être prudent avec l'électricité et ne jamais toucher un fil dénudé.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item" data-exercise="4">
+                <h3><i class="fas fa-lightbulb"></i> Exercice 4 : La lampe</h3>
+                <p class="exercise-question">Comment s'appelle le filament d'une lampe ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Le conducteur</div>
+                    <div class="exercise-option" data-correct="false">L'isolant</div>
+                    <div class="exercise-option" data-correct="true">Le filament en tungstène</div>
+                    <div class="exercise-option" data-correct="false">La résistance</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Le filament en tungstène</p>
+                    <p>Le filament d'une lampe à incandescence est en tungstène, un métal qui résiste à la chaleur. Quand le courant passe, il chauffe tellement qu'il devient lumineux. C'est ce qui produit la lumière.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item" data-exercise="5">
+                <h3><i class="fas fa-battery-full"></i> Exercice 5 : La pile</h3>
+                <p class="exercise-question">Quel est le rôle d'une pile dans un circuit ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Consommer le courant</div>
+                    <div class="exercise-option" data-correct="true">Fournir l'énergie électrique</div>
+                    <div class="exercise-option" data-correct="false">Mesurer le courant</div>
+                    <div class="exercise-option" data-correct="false">Transformer la lumière</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Fournir l'énergie électrique</p>
+                    <p>Une pile est un générateur : elle transforme l'énergie chimique en énergie électrique. Elle crée une tension qui permet au courant de circuler dans le circuit. Sans générateur, le courant ne peut pas circuler.</p>
+                </div>
+            </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-plug"></i> Exercice 6 : Le conducteur</h3>
+                    <p class="exercise-question">Quel matériau est un bon conducteur d'électricité ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="true">Le cuivre</div>
+                        <div class="exercise-option" data-correct="false">Le plastique</div>
+                        <div class="exercise-option" data-correct="false">Le bois</div>
+                        <div class="exercise-option" data-correct="false">Le verre</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Le cuivre</p>
+                        <p>Les métaux comme le cuivre, l'aluminium et l'or sont de bons conducteurs d'électricité. Ils permettent au courant de circuler facilement. Les isolants (plastique, bois, verre) ne laissent pas passer le courant.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-toggle-on"></i> Exercice 7 : L'interrupteur</h3>
+                    <p class="exercise-question">Que fait un interrupteur ouvert ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Il augmente le courant</div>
+                        <div class="exercise-option" data-correct="true">Il coupe le circuit</div>
+                        <div class="exercise-option" data-correct="false">Il crée du courant</div>
+                        <div class="exercise-option" data-correct="false">Il change la tension</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Il coupe le circuit</p>
+                        <p>Un interrupteur ouvert coupe le circuit : le courant ne peut plus circuler et les appareils s'éteignent. Un interrupteur fermé ferme le circuit : le courant peut circuler et les appareils fonctionnent.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-car-battery"></i> Exercice 8 : Les batteries</h3>
+                    <p class="exercise-question">Quelle est la différence entre une pile et une batterie ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Une pile est plus grosse</div>
+                        <div class="exercise-option" data-correct="true">Une batterie est rechargeable</div>
+                        <div class="exercise-option" data-correct="false">Une pile est rechargeable</div>
+                        <div class="exercise-option" data-correct="false">Il n'y a pas de différence</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Une batterie est rechargeable</p>
+                        <p>Une batterie est une pile rechargeable : on peut la recharger plusieurs fois. Une pile classique n'est pas rechargeable : une fois vide, elle doit être remplacée. Les batteries sont plus économiques à long terme.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-bolt"></i> Exercice 9 : Le court-circuit</h3>
+                    <p class="exercise-question">Qu'est-ce qu'un court-circuit ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Un circuit très long</div>
+                        <div class="exercise-option" data-correct="true">Un contact direct entre les bornes sans récepteur</div>
+                        <div class="exercise-option" data-correct="false">Un circuit sans générateur</div>
+                        <div class="exercise-option" data-correct="false">Un circuit très lent</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Un contact direct entre les bornes sans récepteur</p>
+                        <p>Un court-circuit se produit quand le + et le - sont reliés directement sans passer par un appareil. Le courant devient très intense et peut provoquer un incendie ou une explosion. C'est très dangereux.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-shield-alt"></i> Exercice 10 : La sécurité électrique</h3>
+                    <p class="exercise-question">Quel dispositif protège des surintensités ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">L'interrupteur</div>
+                        <div class="exercise-option" data-correct="true">Le fusible ou le disjoncteur</div>
+                        <div class="exercise-option" data-correct="false">La prise électrique</div>
+                        <div class="exercise-option" data-correct="false">Le câble</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Le fusible ou le disjoncteur</p>
+                        <p>Le fusible et le disjoncteur protègent les installations électriques. Si le courant devient trop fort (surintensité), ils coupent le circuit automatiquement pour éviter les incendies et les accidents.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        document.querySelectorAll('.exercise-item').forEach(exercise => {
+            const options = exercise.querySelectorAll('.exercise-option');
+            const checkBtn = exercise.querySelector('.check-btn');
+            const correction = exercise.querySelector('.exercise-correction');
+            let selectedOption = null;
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedOption = this;
+                });
+            });
+
+            checkBtn.addEventListener('click', function() {
+                if (!selectedOption) {
+                    alert('Veuillez sélectionner une réponse.');
+                    return;
+                }
+
+                const isCorrect = selectedOption.dataset.correct === 'true';
+                const exerciseId = exercise.dataset.exercise;
+
+                options.forEach(opt => {
+                    opt.classList.remove('wrong', 'correct');
+                });
+
+                if (isCorrect) {
+                    selectedOption.classList.add('correct');
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('physique', 'electricite', exerciseId, 1);
+                    }
+                } else {
+                    selectedOption.classList.add('wrong');
+                    options.forEach(opt => {
+                        if (opt.dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('physique', 'electricite', exerciseId, 0);
+                    }
+                }
+
+                correction.classList.add('show');
+            });
+        });
+
+        // Gestion de la pagination
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pages = document.querySelectorAll('.exercise-page');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePagination() {
+            pages.forEach((page, index) => {
+                if (index + 1 === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        updatePagination();
+    </script>
+</body>
+</html>

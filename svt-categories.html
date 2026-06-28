@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVT - Catégories - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .categories-container {
+            padding: 8rem 2rem 4rem;
+        }
+
+        .categories-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .categories-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .categories-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            color: var(--dark-bg);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .category-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .category-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .category-progress span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            min-width: 45px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Categories Container -->
+    <div class="categories-container">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i>
+            Retour à l'accueil
+        </a>
+
+        <div class="categories-header">
+            <h1><i class="fas fa-dna"></i> SVT</h1>
+            <p>Choisis une catégorie pour commencer les exercices</p>
+        </div>
+
+        <div class="categories-grid">
+            <div class="category-card" onclick="window.location.href='svt-digestif.html'">
+                <div class="category-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3>Le corps humain</h3>
+                <p>Digestion, respiration, circulation et fonctionnement du corps</p>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%" id="progress-corps"></div>
+                    </div>
+                    <span id="score-corps">0%</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="window.location.href='svt-sante.html'">
+                <div class="category-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <h3>Santé et prévention</h3>
+                <p>Vaccination, microbes, hygiène et protection de la santé</p>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%" id="progress-sante"></div>
+                    </div>
+                    <span id="score-sante">0%</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="window.location.href='svt-environnement.html'">
+                <div class="category-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h3>Environnement</h3>
+                <p>Écosystèmes, biodiversité et protection de la nature</p>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%" id="progress-environnement"></div>
+                    </div>
+                    <span id="score-environnement">0%</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="window.location.href='svt-alimentation.html'">
+                <div class="category-icon">
+                    <i class="fas fa-apple-alt"></i>
+                </div>
+                <h3>Alimentation</h3>
+                <p>Groupes d'aliments, équilibre alimentaire et nutrition</p>
+                <div class="category-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%" id="progress-alimentation"></div>
+                    </div>
+                    <span id="score-alimentation">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        // Charger la progression si connecté
+        function loadProgression() {
+            if (Auth.isLoggedIn()) {
+                const progression = Auth.getSubjectProgression('svt');
+                if (progression) {
+                    if (progression.corps) {
+                        const score = Object.values(progression.corps).reduce((acc, ex) => acc + ex.score, 0) / Object.values(progression.corps).length;
+                        document.getElementById('progress-corps').style.width = Math.round(score) + '%';
+                        document.getElementById('score-corps').textContent = Math.round(score) + '%';
+                    }
+                    if (progression.sante) {
+                        const score = Object.values(progression.sante).reduce((acc, ex) => acc + ex.score, 0) / Object.values(progression.sante).length;
+                        document.getElementById('progress-sante').style.width = Math.round(score) + '%';
+                        document.getElementById('score-sante').textContent = Math.round(score) + '%';
+                    }
+                    if (progression.environnement) {
+                        const score = Object.values(progression.environnement).reduce((acc, ex) => acc + ex.score, 0) / Object.values(progression.environnement).length;
+                        document.getElementById('progress-environnement').style.width = Math.round(score) + '%';
+                        document.getElementById('score-environnement').textContent = Math.round(score) + '%';
+                    }
+                    if (progression.alimentation) {
+                        const score = Object.values(progression.alimentation).reduce((acc, ex) => acc + ex.score, 0) / Object.values(progression.alimentation).length;
+                        document.getElementById('progress-alimentation').style.width = Math.round(score) + '%';
+                        document.getElementById('score-alimentation').textContent = Math.round(score) + '%';
+                    }
+                }
+            }
+        }
+
+        loadProgression();
+    </script>
+</body>
+</html>

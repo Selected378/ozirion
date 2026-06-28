@@ -1,98 +1,350 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ozirion Dev</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Poppins', sans-serif; }
-    .glass { backdrop-filter: blur(12px); background: rgba(255,255,255,0.05); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brevet Pro Boost - Réussis ton Brevet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white">
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
 
-  <!-- Navbar -->
-  <header class="flex justify-between items-center p-6 fixed w-full z-50 glass">
-    <div class="flex items-center gap-3">
-      <!-- IMPORTANT: remplace 'logo.png' par le nom EXACT de ton fichier -->
-      <img src="./logo.png" alt="logo" class="w-10 h-10 object-contain">
-      <h1 class="text-xl font-bold">Ozirion Dev</h1>
-    </div>
-    <nav class="space-x-6 text-sm">
-      <a href="#services" class="hover:text-blue-400">Services</a>
-      <a href="#projects" class="hover:text-blue-400">Projets</a>
-      <a href="#contact" class="hover:text-blue-400">Contact</a>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
     </nav>
-  </header>
 
-  <!-- Hero -->
-  <section class="h-screen flex flex-col justify-center items-center text-center px-4">
-    <h2 class="text-5xl font-bold mb-6">Crée ton site. Attire des clients.</h2>
-    <p class="text-gray-400 mb-8 max-w-xl">Je développe des sites modernes optimisés pour générer des clients automatiquement.</p>
-    <a href="#contact" class="bg-blue-500 hover:bg-blue-600 px-8 py-4 rounded-2xl text-lg transition">Commencer maintenant</a>
-  </section>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Réussis ton Brevet Pro</h1>
+            <p>La plateforme de révision ultime pour les élèves de 3ème professionnelle. SVT, Physique-Chimie, Mathématiques - tout ce dont tu as besoin pour exceller.</p>
+            <div class="hero-buttons">
+                <a href="svt-categories.html" class="hero-btn btn-primary">
+                    <i class="fas fa-dna"></i>
+                    SVT
+                </a>
+                <a href="physique-categories.html" class="hero-btn btn-secondary">
+                    <i class="fas fa-atom"></i>
+                    Physique-Chimie
+                </a>
+                <a href="maths-categories.html" class="hero-btn btn-accent">
+                    <i class="fas fa-calculator"></i>
+                    Mathématiques
+                </a>
+            </div>
+        </div>
+    </section>
 
-  <!-- Services -->
-  <section id="services" class="py-20 px-6">
-    <h3 class="text-4xl font-bold text-center mb-12">Services</h3>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="glass p-8 rounded-2xl hover:scale-105 transition">
-        <h4 class="text-xl font-bold mb-3">Sites Web</h4>
-        <p class="text-gray-400">Sites rapides qui transforment les visiteurs en clients.</p>
-      </div>
-      <div class="glass p-8 rounded-2xl hover:scale-105 transition">
-        <h4 class="text-xl font-bold mb-3">Bots</h4>
-        <p class="text-gray-400">Bots Discord utiles pour automatiser et gérer.</p>
-      </div>
-      <div class="glass p-8 rounded-2xl hover:scale-105 transition">
-        <h4 class="text-xl font-bold mb-3">Automatisation</h4>
-        <p class="text-gray-400">Scripts pour gagner du temps et augmenter les revenus.</p>
-      </div>
-    </div>
-  </section>
+    <!-- SVT Section -->
+    <section id="svt" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-dna"></i> SVT</h2>
+                <p>Sciences de la Vie et de la Terre</p>
+            </div>
+            <div class="chapters-grid">
+                <div class="chapter-card" data-subject="svt">
+                    <div class="chapter-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Le corps humain et la santé</h3>
+                    <p>Anatomie, physiologie et fonctionnement des systèmes vitaux</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="svt">
+                    <div class="chapter-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>La biodiversité</h3>
+                    <p>Écosystèmes, chaînes alimentaires et protection de l'environnement</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="svt">
+                    <div class="chapter-icon">
+                        <i class="fas fa-globe-europe"></i>
+                    </div>
+                    <h3>La planète Terre</h3>
+                    <p>Structure interne, tectonique des plaques et phénomènes géologiques</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="svt">
+                    <div class="chapter-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h3>Le fonctionnement des êtres vivants</h3>
+                    <p>Nutrition, reproduction et adaptation des espèces</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Projects -->
-  <section id="projects" class="py-20 px-6 bg-black">
-    <h3 class="text-4xl font-bold text-center mb-12">Projets</h3>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="glass p-6 rounded-2xl hover:scale-105 transition">
-        <h4 class="font-bold text-lg">Site restaurant premium</h4>
-        <p class="text-gray-400">Réservation en ligne + visibilité Google.</p>
-      </div>
-      <div class="glass p-6 rounded-2xl hover:scale-105 transition">
-        <h4 class="font-bold text-lg">Bot Discord communauté</h4>
-        <p class="text-gray-400">Automatisation complète + modération.</p>
-      </div>
-      <div class="glass p-6 rounded-2xl hover:scale-105 transition">
-        <h4 class="font-bold text-lg">Landing page business</h4>
-        <p class="text-gray-400">Page optimisée pour convertir en clients.</p>
-      </div>
-    </div>
-  </section>
+    <!-- Physique-Chimie Section -->
+    <section id="physique" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-atom"></i> Physique-Chimie</h2>
+                <p>Les sciences de la matière et de l'énergie</p>
+            </div>
+            <div class="chapters-grid">
+                <div class="chapter-card" data-subject="physique">
+                    <div class="chapter-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>L'électricité</h3>
+                    <p>Circuits électriques, loi d'Ohm et puissance électrique</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="physique">
+                    <div class="chapter-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>La chimie</h3>
+                    <p>Atomes, molécules, réactions chimiques et pH</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="physique">
+                    <div class="chapter-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>L'optique</h3>
+                    <p>Lumière, lentilles, miroirs et formation des images</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="physique">
+                    <div class="chapter-icon">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <h3>Les ondes</h3>
+                    <p>Son, lumière, ondes électromagnétiques et leurs applications</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Formulaire (IMPORTANT POUR CLIENTS) -->
-  <section class="py-20 px-6 text-center">
-    <h3 class="text-3xl font-bold mb-6">Obtenir un site rapidement</h3>
-    <form action="https://formspree.io/f/mykleodk" method="POST" class="max-w-md mx-auto space-y-4">
-      <input type="text" name="name" placeholder="Nom" class="w-full p-3 rounded bg-gray-800" required>
-      <input type="email" name="email" placeholder="Email" class="w-full p-3 rounded bg-gray-800" required>
-      <textarea name="message" placeholder="Votre besoin" class="w-full p-3 rounded bg-gray-800" required></textarea>
-      <button class="bg-blue-500 px-6 py-3 rounded-2xl hover:bg-blue-600 transition w-full">Envoyer</button>
-    </form>
-  </section>
+    <!-- Mathématiques Section -->
+    <section id="maths" class="course-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-calculator"></i> Mathématiques</h2>
+                <p>Le langage universel des sciences</p>
+            </div>
+            <div class="chapters-grid">
+                <div class="chapter-card" data-subject="maths">
+                    <div class="chapter-icon">
+                        <i class="fas fa-equals"></i>
+                    </div>
+                    <h3>Équations et inéquations</h3>
+                    <p>Résolution d'équations du premier degré et systèmes</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="maths">
+                    <div class="chapter-icon">
+                        <i class="fas fa-shapes"></i>
+                    </div>
+                    <h3>Géométrie</h3>
+                    <p>Théorème de Pythagore, Thalès, triangles et quadrilatères</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="maths">
+                    <div class="chapter-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Fonctions</h3>
+                    <p>Fonctions affines, linéaires et représentations graphiques</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="chapter-card" data-subject="maths">
+                    <div class="chapter-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3>Statistiques et probabilités</h3>
+                    <p>Moyenne, médiane, étendue et calculs de probabilités</p>
+                    <div class="chapter-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%"></div>
+                        </div>
+                        <span>0%</span>
+                    </div>
+                    <button class="chapter-btn">Commencer <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
 
-  <!-- Contact -->
-  <section id="contact" class="py-20 px-6 text-center">
-    <h3 class="text-4xl font-bold mb-6">Contact direct</h3>
-    <a href="mailto:tonemail@gmail.com" class="bg-blue-500 px-8 py-4 rounded-2xl hover:bg-blue-600 transition">Envoyer un email</a>
-  </section>
+            <!-- Exercice Interactif -->
+            <div class="exercise-container">
+                <div class="exercise-header">
+                    <h3><i class="fas fa-pencil-alt"></i> Exercice Interactif - Équations</h3>
+                    <p>Résous l'équation suivante et teste tes connaissances</p>
+                </div>
+                <div class="exercise-content">
+                    <div class="exercise-problem">
+                        <h4>Problème :</h4>
+                        <p>Résous l'équation : <strong>3x + 7 = 22</strong></p>
+                    </div>
+                    <div class="exercise-input">
+                        <label for="answer">Ta réponse (x = ) :</label>
+                        <input type="number" id="answer" placeholder="Entre ta réponse..." step="0.1">
+                    </div>
+                    <button class="exercise-btn" id="checkAnswer">
+                        <i class="fas fa-check"></i> Corriger
+                    </button>
+                    <button class="exercise-btn btn-secondary" id="retryExercise">
+                        <i class="fas fa-redo"></i> Réessayer
+                    </button>
+                </div>
+                <div class="exercise-result" id="exerciseResult">
+                    <div class="result-content">
+                        <div class="result-score">
+                            <span class="score-number" id="scoreNumber">0</span>
+                            <span class="score-total">/20</span>
+                        </div>
+                        <div class="result-feedback" id="resultFeedback">
+                            <h4 id="feedbackTitle"></h4>
+                            <p id="feedbackText"></p>
+                            <div class="result-explanation" id="resultExplanation">
+                                <h5>Correction détaillée :</h5>
+                                <p id="explanationText"></p>
+                            </div>
+                            <div class="result-tips" id="resultTips">
+                                <h5>💡 Conseils :</h5>
+                                <ul id="tipsList"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- Footer -->
-  <footer class="text-center p-6 text-gray-500">
-    © 2026 Ozirion Dev
-  </footer>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2026 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
 
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+    </script>
 </body>
 </html>

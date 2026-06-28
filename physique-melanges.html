@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mélanges - Physique-Chimie - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-flask"></i> Mélanges</h1>
+        <p>Physique-Chimie - Exercices interactifs</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="physique-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
+            <div class="exercise-item" data-exercise="1">
+                <h3><i class="fas fa-filter"></i> Exercice 1 : La filtration</h3>
+                <p class="exercise-question">Comment séparer l'eau du sable ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="true">Filtration</div>
+                    <div class="exercise-option" data-correct="false">Distillation</div>
+                    <div class="exercise-option" data-correct="false">Décantation</div>
+                    <div class="exercise-option" data-correct="false">Évaporation</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Filtration</p>
+                    <p>La filtration permet de séparer un solide (sable) d'un liquide (eau). On utilise un filtre (papier filtre, tissu) qui retient les particules solides et laisse passer le liquide. Le sable reste sur le filtre, l'eau traverse. C'est comme un tamis !</p>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item" data-exercise="2">
+                <h3><i class="fas fa-vial"></i> Exercice 2 : La décantation</h3>
+                <p class="exercise-question">Qu'est-ce que la décantation ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Séparer par chauffage</div>
+                    <div class="exercise-option" data-correct="true">Laisser les particules se déposer au fond</div>
+                    <div class="exercise-option" data-correct="false">Séparer avec un filtre</div>
+                    <div class="exercise-option" data-correct="false">Mélanger deux liquides</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Laisser les particules se déposer au fond</p>
+                    <p>La décantation consiste à laisser un mélange au repos. Les particules solides plus lourdes se déposent progressivement au fond du récipient. On peut alors récupérer le liquide clair en surface. C'est utilisé pour séparer l'eau de la boue.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item" data-exercise="3">
+                <h3><i class="fas fa-tint"></i> Exercice 3 : Les mélanges homogènes</h3>
+                <p class="exercise-question">Quel est un exemple de mélange homogène ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Eau et huile</div>
+                    <div class="exercise-option" data-correct="false">Eau et sable</div>
+                    <div class="exercise-option" data-correct="true">Eau et sel</div>
+                    <div class="exercise-option" data-correct="false">Eau et cailloux</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Eau et sel</p>
+                    <p>Un mélange homogène est un mélange où on ne peut pas distinguer les différents composants à l'œil nu. Le sel dissous dans l'eau forme un mélange homogène (l'eau salée). L'eau et l'huile forment un mélange hétérogène (on voit les deux phases).</p>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item" data-exercise="4">
+                <h3><i class="fas fa-atom"></i> Exercice 4 : La dissolution</h3>
+                <p class="exercise-question">Qu'est-ce que la dissolution ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Séparer un solide d'un liquide</div>
+                    <div class="exercise-option" data-correct="true">Mélanger un solide dans un liquide jusqu'à ce qu'il disparaisse</div>
+                    <div class="exercise-option" data-correct="false">Chauffer un liquide</div>
+                    <div class="exercise-option" data-correct="false">Refroidir un mélange</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Mélanger un solide dans un liquide jusqu'à ce qu'il disparaisse</p>
+                    <p>La dissolution est le processus où un solide (le soluté) se disperse dans un liquide (le solvant) pour former un mélange homogène. Le sel se dissout dans l'eau : les grains de sel disparaissent et l'eau devient salée.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item" data-exercise="5">
+                <h3><i class="fas fa-fire"></i> Exercice 5 : L'évaporation</h3>
+                <p class="exercise-question">Comment récupérer le sel d'une eau salée ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Par filtration</div>
+                    <div class="exercise-option" data-correct="false">Par décantation</div>
+                    <div class="exercise-option" data-correct="true">Par évaporation</div>
+                    <div class="exercise-option" data-correct="false">Par distillation</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Par évaporation</p>
+                    <p>L'évaporation consiste à chauffer un mélange pour faire évaporer le liquide. Si on chauffe de l'eau salée, l'eau s'évapore et le sel reste. C'est une façon de récupérer le soluté d'une solution. Le sel reste sous forme de cristaux.</p>
+                </div>
+            </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-layer-group"></i> Exercice 6 : La décantation</h3>
+                    <p class="exercise-question">Comment séparer l'huile de l'eau ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Par filtration</div>
+                        <div class="exercise-option" data-correct="true">Par décantation</div>
+                        <div class="exercise-option" data-correct="false">Par dissolution</div>
+                        <div class="exercise-option" data-correct="false">Par évaporation</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Par décantation</p>
+                        <p>La décantation permet de séparer des liquides non miscibles (qui ne se mélangent pas) comme l'huile et l'eau. On laisse le mélange reposer : les liquides se séparent par gravité, le plus lourd descend. On peut alors les récupérer séparément.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-flask"></i> Exercice 7 : La distillation</h3>
+                    <p class="exercise-question">Comment séparer l'eau de l'alcool ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="true">Par distillation</div>
+                        <div class="exercise-option" data-correct="false">Par filtration</div>
+                        <div class="exercise-option" data-correct="false">Par décantation</div>
+                        <div class="exercise-option" data-correct="false">Par évaporation</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Par distillation</p>
+                        <p>La distillation sépare des liquides miscibles en utilisant leurs points d'ébullition différents. On chauffe le mélange : le liquide qui bout à la température la plus basse s'évapore en premier, puis est refroidi et récupéré. L'alcool bout avant l'eau.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-tint"></i> Exercice 8 : Le solvant</h3>
+                    <p class="exercise-question">Qu'est-ce qu'un solvant ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">La substance qui se dissout</div>
+                        <div class="exercise-option" data-correct="true">Le liquide dans lequel on dissout une substance</div>
+                        <div class="exercise-option" data-correct="false">Le mélange final</div>
+                        <div class="exercise-option" data-correct="false">Un solide</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Le liquide dans lequel on dissout une substance</p>
+                        <p>Le solvant est le liquide qui dissout le soluté. Dans une solution d'eau salée, l'eau est le solvant et le sel est le soluté. Le solvant est généralement en plus grande quantité que le soluté dans la solution.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-cubes"></i> Exercice 9 : La saturation</h3>
+                    <p class="exercise-question">Qu'est-ce qu'une solution saturée ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Une solution très chaude</div>
+                        <div class="exercise-option" data-correct="false">Une solution très froide</div>
+                        <div class="exercise-option" data-correct="true">Une solution qui ne peut plus dissoudre de soluté</div>
+                        <div class="exercise-option" data-correct="false">Une solution transparente</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Une solution qui ne peut plus dissoudre de soluté</p>
+                        <p>Une solution est saturée quand elle contient la quantité maximale de soluté possible. Si on ajoute encore du soluté, il ne se dissout plus et reste au fond du récipient. La saturation dépend de la température.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-magnet"></i> Exercice 10 : Séparation magnétique</h3>
+                    <p class="exercise-question">Comment séparer des clous de sable ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="true">Avec un aimant</div>
+                        <div class="exercise-option" data-correct="false">Par filtration</div>
+                        <div class="exercise-option" data-correct="false">Par décantation</div>
+                        <div class="exercise-option" data-correct="false">Par dissolution</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Avec un aimant</p>
+                        <p>La séparation magnétique utilise un aimant pour séparer les matériaux magnétiques (fer, acier) des matériaux non magnétiques. On peut ainsi récupérer les clous (magnétiques) du sable (non magnétique). C'est une technique simple et efficace.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        document.querySelectorAll('.exercise-item').forEach(exercise => {
+            const options = exercise.querySelectorAll('.exercise-option');
+            const checkBtn = exercise.querySelector('.check-btn');
+            const correction = exercise.querySelector('.exercise-correction');
+            let selectedOption = null;
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedOption = this;
+                });
+            });
+
+            checkBtn.addEventListener('click', function() {
+                if (!selectedOption) {
+                    alert('Veuillez sélectionner une réponse.');
+                    return;
+                }
+
+                const isCorrect = selectedOption.dataset.correct === 'true';
+                const exerciseId = exercise.dataset.exercise;
+
+                options.forEach(opt => {
+                    opt.classList.remove('wrong', 'correct');
+                });
+
+                if (isCorrect) {
+                    selectedOption.classList.add('correct');
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('physique', 'melanges', exerciseId, 1);
+                    }
+                } else {
+                    selectedOption.classList.add('wrong');
+                    options.forEach(opt => {
+                        if (opt.dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('physique', 'melanges', exerciseId, 0);
+                    }
+                }
+
+                correction.classList.add('show');
+            });
+        });
+
+        // Gestion de la pagination
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pages = document.querySelectorAll('.exercise-page');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePagination() {
+            pages.forEach((page, index) => {
+                if (index + 1 === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        updatePagination();
+    </script>
+</body>
+</html>

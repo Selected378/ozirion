@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environnement - SVT - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="svt-categories.html" class="nav-link">SVT</a>
+            </li>
+            <li class="nav-item">
+                <a href="physique-categories.html" class="nav-link">Physique-Chimie</a>
+            </li>
+            <li class="nav-item">
+                <a href="maths-categories.html" class="nav-link">Mathématiques</a>
+            </li>
+        </ul>
+        <div class="nav-right">
+            <a href="progression.html" class="nav-btn btn-secondary">
+                <i class="fas fa-chart-line"></i>
+                Progression
+            </a>
+            <button class="nav-btn btn-primary" id="authBtn">
+                <i class="fas fa-user"></i>
+                Connexion
+            </button>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-leaf"></i> Environnement</h1>
+        <p>SVT - Exercices interactifs</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="svt-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
+            <div class="exercise-item" data-exercise="1">
+                <h3><i class="fas fa-tree"></i> Exercice 1 : La chaîne alimentaire</h3>
+                <p class="exercise-question">Qu'est-ce qu'un producteur dans une chaîne alimentaire ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Un animal qui mange d'autres animaux</div>
+                    <div class="exercise-option" data-correct="true">Un être vivant qui produit sa propre nourriture (plante)</div>
+                    <div class="exercise-option" data-correct="false">Un animal qui mange des plantes</div>
+                    <div class="exercise-option" data-correct="false">Un décomposeur</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Un être vivant qui produit sa propre nourriture (plante)</p>
+                    <p>Les producteurs sont généralement des plantes vertes qui utilisent la lumière du soleil pour fabriquer leur nourriture (photosynthèse). Ils sont à la base de toutes les chaînes alimentaires car ils fournissent l'énergie à tous les autres êtres vivants.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item" data-exercise="2">
+                <h3><i class="fas fa-recycle"></i> Exercice 2 : Le recyclage</h3>
+                <p class="exercise-question">Pourquoi est-il important de recycler ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Pour que les poubelles soient plus légères</div>
+                    <div class="exercise-option" data-correct="true">Pour protéger l'environnement et économiser les ressources</div>
+                    <div class="exercise-option" data-correct="false">Parce que c'est obligatoire</div>
+                    <div class="exercise-option" data-correct="false">Pour gagner de l'argent</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Pour protéger l'environnement et économiser les ressources</p>
+                    <p>Le recyclage permet de réutiliser les matériaux au lieu de les jeter. Cela réduit la pollution, économise les ressources naturelles (comme le pétrole pour le plastique) et diminue la quantité de déchets. C'est essentiel pour protéger notre planète.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item" data-exercise="3">
+                <h3><i class="fas fa-water"></i> Exercice 3 : La pollution de l'eau</h3>
+                <p class="exercise-question">Quelle action pollue le moins l'eau ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Jeter des plastiques dans la nature</div>
+                    <div class="exercise-option" data-correct="false">Verser de l'huile dans l'évier</div>
+                    <div class="exercise-option" data-correct="true">Utiliser des produits biodégradables</div>
+                    <div class="exercise-option" data-correct="false">Laver sa voiture dans la rue</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Utiliser des produits biodégradables</p>
+                    <p>Les produits biodégradables se décomposent naturellement sans polluer l'eau. Les plastiques, l'huile et les produits chimiques polluent l'eau pendant longtemps et peuvent rendre l'eau impropre à la consommation et dangereuse pour la vie aquatique.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item" data-exercise="4">
+                <h3><i class="fas fa-seedling"></i> Exercice 4 : La biodiversité</h3>
+                <p class="exercise-question">Qu'est-ce que la biodiversité ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">La variété des paysages</div>
+                    <div class="exercise-option" data-correct="true">La variété des espèces vivantes sur Terre</div>
+                    <div class="exercise-option" data-correct="false">La variété des climats</div>
+                    <div class="exercise-option" data-correct="false">La variété des sols</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> La variété des espèces vivantes sur Terre</p>
+                    <p>La biodiversité désigne la diversité de toutes les espèces vivantes (animaux, plantes, champignons, microbes). Plus la biodiversité est grande, plus les écosystèmes sont résistants. La protéger est essentiel pour l'équilibre de la planète.</p>
+                </div>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item" data-exercise="5">
+                <h3><i class="fas fa-sun"></i> Exercice 5 : L'énergie</h3>
+                <p class="exercise-question">Quelle source d'énergie est renouvelable ?</p>
+                <div class="exercise-options">
+                    <div class="exercise-option" data-correct="false">Le pétrole</div>
+                    <div class="exercise-option" data-correct="false">Le charbon</div>
+                    <div class="exercise-option" data-correct="false">Le gaz naturel</div>
+                    <div class="exercise-option" data-correct="true">Le soleil</div>
+                </div>
+                <button class="check-btn">Vérifier</button>
+                <div class="exercise-correction">
+                    <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                    <p><strong>Bonne réponse :</strong> Le soleil</p>
+                    <p>Les énergies renouvelables sont inépuisables à l'échelle humaine : le soleil, le vent, l'eau. Le pétrole, le charbon et le gaz sont des énergies fossiles : elles s'épuisent et polluent quand on les utilise. Les énergies renouvelables sont meilleures pour l'environnement.</p>
+                </div>
+            </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-leaf"></i> Exercice 6 : La photosynthèse</h3>
+                    <p class="exercise-question">Qu'est-ce que les plantes produisent grâce à la photosynthèse ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Du dioxyde de carbone</div>
+                        <div class="exercise-option" data-correct="true">De l'oxygène et du glucose</div>
+                        <div class="exercise-option" data-correct="false">De l'eau</div>
+                        <div class="exercise-option" data-correct="false">De l'azote</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> De l'oxygène et du glucose</p>
+                        <p>La photosynthèse permet aux plantes de produire leur propre nourriture (glucose) en utilisant l'énergie du soleil, l'eau et le dioxyde de carbone. Elles rejettent de l'oxygène comme déchet, ce qui est essentiel pour la vie sur Terre.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-recycle"></i> Exercice 7 : Le compostage</h3>
+                    <p class="exercise-question">À quoi sert le compostage ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">À brûler les déchets</div>
+                        <div class="exercise-option" data-correct="true">À transformer les déchets organiques en engrais</div>
+                        <div class="exercise-option" data-correct="false">À jeter les déchets</div>
+                        <div class="exercise-option" data-correct="false">À recycler le plastique</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> À transformer les déchets organiques en engrais</p>
+                        <p>Le compostage transforme les déchets organiques (épluchures, feuilles, restes de cuisine) en un engrais naturel appelé compost. Cela réduit les déchets et nourrit le sol sans produits chimiques. C'est un excellent moyen de recycler à la maison.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-water"></i> Exercice 8 : L'économie d'eau</h3>
+                    <p class="exercise-question">Comment peut-on économiser l'eau à la maison ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">En prenant des douches plus longues</div>
+                        <div class="exercise-option" data-correct="true">En fermant le robinet quand on se brosse les dents</div>
+                        <div class="exercise-option" data-correct="false">En laissant couler l'eau</div>
+                        <div class="exercise-option" data-correct="false">En utilisant plus de produits chimiques</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> En fermant le robinet quand on se brosse les dents</p>
+                        <p>Fermer le robinet pendant qu'on se brosse les dents peut économiser plusieurs litres d'eau par jour. D'autres gestes : prendre des douches courtes, réparer les fuites, utiliser des économiseurs d'eau. L'eau est une ressource précieuse à protéger.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-wind"></i> Exercice 9 : La pollution de l'air</h3>
+                    <p class="exercise-question">Quelle activité pollue le plus l'air ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">La marche à pied</div>
+                        <div class="exercise-option" data-correct="false">Le vélo</div>
+                        <div class="exercise-option" data-correct="true">Les transports en voiture</div>
+                        <div class="exercise-option" data-correct="false">Le jardinage</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Les transports en voiture</p>
+                        <p>Les voitures émettent du dioxyde de carbone et d'autres polluants qui contribuent au réchauffement climatique et à la pollution de l'air. Préférer les transports en commun, le vélo ou la marche aide à réduire cette pollution.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-solar-panel"></i> Exercice 10 : Les panneaux solaires</h3>
+                    <p class="exercise-question">Comment fonctionnent les panneaux solaires ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Ils brûlent le soleil</div>
+                        <div class="exercise-option" data-correct="true">Ils convertissent la lumière du soleil en électricité</div>
+                        <div class="exercise-option" data-correct="false">Ils stockent le vent</div>
+                        <div class="exercise-option" data-correct="false">Ils pompent l'eau</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Ils convertissent la lumière du soleil en électricité</p>
+                        <p>Les panneaux solaires contiennent des cellules photovoltaïques qui transforment directement la lumière du soleil en électricité. C'est une source d'énergie renouvelable et propre qui ne produit pas de gaz à effet de serre.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Gestion du bouton de connexion
+        const authBtn = document.getElementById('authBtn');
+        if (authBtn) {
+            if (Auth.isLoggedIn()) {
+                const user = Auth.getCurrentUser();
+                authBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Déconnexion';
+                authBtn.addEventListener('click', function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                });
+            } else {
+                authBtn.addEventListener('click', function() {
+                    window.location.href = 'auth.html';
+                });
+            }
+        }
+
+        document.querySelectorAll('.exercise-item').forEach(exercise => {
+            const options = exercise.querySelectorAll('.exercise-option');
+            const checkBtn = exercise.querySelector('.check-btn');
+            const correction = exercise.querySelector('.exercise-correction');
+            let selectedOption = null;
+
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedOption = this;
+                });
+            });
+
+            checkBtn.addEventListener('click', function() {
+                if (!selectedOption) {
+                    alert('Veuillez sélectionner une réponse.');
+                    return;
+                }
+
+                const isCorrect = selectedOption.dataset.correct === 'true';
+                const exerciseId = exercise.dataset.exercise;
+
+                options.forEach(opt => {
+                    opt.classList.remove('wrong', 'correct');
+                });
+
+                if (isCorrect) {
+                    selectedOption.classList.add('correct');
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('svt', 'environnement', exerciseId, 1);
+                    }
+                } else {
+                    selectedOption.classList.add('wrong');
+                    options.forEach(opt => {
+                        if (opt.dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                    if (Auth.isLoggedIn()) {
+                        Auth.saveProgression('svt', 'environnement', exerciseId, 0);
+                    }
+                }
+
+                correction.classList.add('show');
+            });
+        });
+
+        // Gestion de la pagination
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pages = document.querySelectorAll('.exercise-page');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePagination() {
+            pages.forEach((page, index) => {
+                if (index + 1 === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        updatePagination();
+    </script>
+</body>
+</html>
