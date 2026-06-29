@@ -142,6 +142,49 @@
             color: var(--text-secondary);
             font-size: 1.2rem;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -194,7 +237,9 @@
                 Retour aux catégories
             </a>
 
-            <!-- Exercise 1 -->
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
             <div class="exercise-item" data-exercise="1">
                 <h3><i class="fas fa-sun"></i> Exercice 1 : Les énergies renouvelables</h3>
                 <p class="exercise-question">Quelle source d'énergie est renouvelable ?</p>
@@ -283,6 +328,111 @@
                     <p>L'énergie chimique est stockée dans les liaisons chimiques des molécules. Les aliments contiennent de l'énergie chimique que notre corps utilise. Les piles contiennent aussi de l'énergie chimique qui est convertie en électricité.</p>
                 </div>
             </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-wind"></i> Exercice 6 : L'énergie éolienne</h3>
+                    <p class="exercise-question">Comment fonctionne une éolienne ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Elle utilise la chaleur du soleil</div>
+                        <div class="exercise-option" data-correct="true">Elle utilise la force du vent</div>
+                        <div class="exercise-option" data-correct="false">Elle utilise l'eau</div>
+                        <div class="exercise-option" data-correct="false">Elle utilise le charbon</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Elle utilise la force du vent</p>
+                        <p>Une éolienne utilise l'énergie cinétique du vent pour faire tourner ses pales. Cette rotation entraîne un générateur qui produit de l'électricité. L'énergie éolienne est renouvelable et ne pollue pas pendant son fonctionnement.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-water"></i> Exercice 7 : L'énergie hydraulique</h3>
+                    <p class="exercise-question">Comment produit-on de l'électricité avec l'eau ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">En chauffant l'eau</div>
+                        <div class="exercise-option" data-correct="true">En utilisant la force de l'eau en mouvement</div>
+                        <div class="exercise-option" data-correct="false">En refroidissant l'eau</div>
+                        <div class="exercise-option" data-correct="false">En vaporisant l'eau</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> En utilisant la force de l'eau en mouvement</p>
+                        <p>L'énergie hydraulique utilise la force de l'eau (chute d'eau, courant de rivière, marées) pour faire tourner une turbine. La turbine entraîne un générateur qui produit de l'électricité. C'est une énergie renouvelable très utilisée.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-burn"></i> Exercice 8 : Les énergies fossiles</h3>
+                    <p class="exercise-question">Quel est le problème des énergies fossiles ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Elles sont trop chères</div>
+                        <div class="exercise-option" data-correct="true">Elles s'épuisent et polluent</div>
+                        <div class="exercise-option" data-correct="false">Elles ne produisent pas d'énergie</div>
+                        <div class="exercise-option" data-correct="false">Elles sont renouvelables</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Elles s'épuisent et polluent</p>
+                        <p>Les énergies fossiles (pétrole, charbon, gaz) s'épuisent car elles se forment sur des millions d'années. De plus, leur combustion produit du CO2 qui contribue au réchauffement climatique. Il faut les remplacer par des énergies renouvelables.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-cog"></i> Exercice 9 : L'énergie mécanique</h3>
+                    <p class="exercise-question">Qu'est-ce que l'énergie mécanique ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">L'énergie de la chaleur</div>
+                        <div class="exercise-option" data-correct="true">L'énergie du mouvement</div>
+                        <div class="exercise-option" data-correct="false">L'énergie de la lumière</div>
+                        <div class="exercise-option" data-correct="false">L'énergie chimique</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> L'énergie du mouvement</p>
+                        <p>L'énergie mécanique est l'énergie liée au mouvement d'un objet. Elle comprend l'énergie cinétique (énergie du mouvement) et l'énergie potentielle (énergie de position). Une voiture en mouvement possède de l'énergie mécanique.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-lightbulb"></i> Exercice 10 : L'économie d'énergie</h3>
+                    <p class="exercise-question">Comment peut-on économiser l'énergie à la maison ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">En laissant les lumières allumées</div>
+                        <div class="exercise-option" data-correct="true">En éteignant les appareils inutilisés</div>
+                        <div class="exercise-option" data-correct="false">En utilisant des ampoules anciennes</div>
+                        <div class="exercise-option" data-correct="false">En chauffant excessivement</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> En éteignant les appareils inutilisés</p>
+                        <p>Économiser l'énergie est important pour l'environnement et le budget. On peut éteindre les lumières et appareils inutilisés, utiliser des ampoules LED, isoler la maison, et modérer le chauffage. Chaque petit geste compte.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -366,6 +516,46 @@
                 correction.classList.add('show');
             });
         });
+
+        // Gestion de la pagination
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pages = document.querySelectorAll('.exercise-page');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePagination() {
+            pages.forEach((page, index) => {
+                if (index + 1 === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        updatePagination();
     </script>
 </body>
 </html>

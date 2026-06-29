@@ -142,6 +142,49 @@
             color: var(--text-secondary);
             font-size: 1.2rem;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -194,7 +237,9 @@
                 Retour aux catégories
             </a>
 
-            <!-- Exercise 1 -->
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
             <div class="exercise-item" data-exercise="1">
                 <h3><i class="fas fa-square"></i> Exercice 1 : Périmètre du carré</h3>
                 <p class="exercise-question">Quel est le périmètre d'un carré de côté 5 cm ?</p>
@@ -293,6 +338,120 @@
                     <p>Le périmètre d'un cercle s'appelle aussi la circonférence.</p>
                 </div>
             </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-circle"></i> Exercice 6 : Aire du cercle</h3>
+                    <p class="exercise-question">Quelle est la formule de l'aire d'un cercle ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">2 × π × r</div>
+                        <div class="exercise-option" data-correct="true">π × r²</div>
+                        <div class="exercise-option" data-correct="false">π × r</div>
+                        <div class="exercise-option" data-correct="false">2 × π × r²</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> π × r²</p>
+                        <p><strong>Formule :</strong> Aire du cercle = π × r²</p>
+                        <p>Où π ≈ 3,14 et r est le rayon du cercle.</p>
+                        <p>L'aire représente la surface à l'intérieur du cercle.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-play"></i> Exercice 7 : Périmètre du triangle</h3>
+                    <p class="exercise-question">Quel est le périmètre d'un triangle avec des côtés de 3 cm, 4 cm et 5 cm ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">10 cm</div>
+                        <div class="exercise-option" data-correct="true">12 cm</div>
+                        <div class="exercise-option" data-correct="false">14 cm</div>
+                        <div class="exercise-option" data-correct="false">15 cm</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 12 cm</p>
+                        <p><strong>Calcul :</strong> Périmètre = somme des côtés</p>
+                        <p>Périmètre = 3 + 4 + 5 = 12 cm</p>
+                        <p>Le périmètre d'un triangle est la somme de ses trois côtés.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-cube"></i> Exercice 8 : Volume du cube</h3>
+                    <p class="exercise-question">Quel est le volume d'un cube de côté 3 cm ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">9 cm³</div>
+                        <div class="exercise-option" data-correct="false">18 cm³</div>
+                        <div class="exercise-option" data-correct="true">27 cm³</div>
+                        <div class="exercise-option" data-correct="false">36 cm³</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 27 cm³</p>
+                        <p><strong>Formule :</strong> Volume du cube = côté³</p>
+                        <p>Volume = 3³ = 3 × 3 × 3 = 27 cm³</p>
+                        <p>Le volume représente l'espace occupé par le cube en 3D.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-vector-square"></i> Exercice 9 : Aire du triangle rectangle</h3>
+                    <p class="exercise-question">Quelle est l'aire d'un triangle rectangle de base 6 cm et de hauteur 4 cm ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">10 cm²</div>
+                        <div class="exercise-option" data-correct="true">12 cm²</div>
+                        <div class="exercise-option" data-correct="false">14 cm²</div>
+                        <div class="exercise-option" data-correct="false">24 cm²</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 12 cm²</p>
+                        <p><strong>Formule :</strong> Aire du triangle = (base × hauteur) ÷ 2</p>
+                        <p>Aire = (6 × 4) ÷ 2 = 24 ÷ 2 = 12 cm²</p>
+                        <p>Pour un triangle rectangle, la base et la hauteur sont les côtés perpendiculaires.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-shapes"></i> Exercice 10 : Le triangle équilatéral</h3>
+                    <p class="exercise-question">Quelle est la caractéristique d'un triangle équilatéral ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Il a un angle droit</div>
+                        <div class="exercise-option" data-correct="false">Il a deux côtés égaux</div>
+                        <div class="exercise-option" data-correct="true">Il a trois côtés égaux</div>
+                        <div class="exercise-option" data-correct="false">Il a trois angles différents</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Il a trois côtés égaux</p>
+                        <p>Un triangle équilatéral a trois côtés de même longueur et trois angles de même mesure (60° chacun).</p>
+                        <p>C'est un triangle régulier : tous ses côtés et angles sont égaux.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -376,6 +535,46 @@
                 correction.classList.add('show');
             });
         });
+
+        // Gestion de la pagination
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pages = document.querySelectorAll('.exercise-page');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePagination() {
+            pages.forEach((page, index) => {
+                if (index + 1 === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        updatePagination();
     </script>
 </body>
 </html>

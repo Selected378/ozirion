@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antiquité - Histoire - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="progression.html" class="nav-link">Progression</a>
+            <div id="authButton"></div>
+        </div>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-landmark"></i> Antiquité</h1>
+        <p>Teste tes connaissances sur l'Antiquité</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="histoire-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
+                <div class="exercise-item" data-exercise="1">
+                    <h3><i class="fas fa-landmark"></i> Exercice 1 : L'Égypte antique</h3>
+                    <p class="exercise-question">Quel fleuve traversait l'Égypte antique ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">L'Amazone</div>
+                        <div class="exercise-option" data-correct="false">Le Danube</div>
+                        <div class="exercise-option" data-correct="true">Le Nil</div>
+                        <div class="exercise-option" data-correct="false">Le Rhin</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Le Nil</p>
+                        <p>Le Nil est le fleuve qui traversait l'Égypte antique. Ses crues régulières déposaient du limon fertile sur les rives, permettant l'agriculture. La civilisation égyptienne s'est développée le long de ce fleuve.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-item" data-exercise="2">
+                    <h3><i class="fas fa-monument"></i> Exercice 2 : Les pyramides</h3>
+                    <p class="exercise-question">Où se trouve la grande pyramide de Gizeh ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">En Grèce</div>
+                        <div class="exercise-option" data-correct="true">En Égypte</div>
+                        <div class="exercise-option" data-correct="false">En Mésopotamie</div>
+                        <div class="exercise-option" data-correct="false">En Perse</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> En Égypte</p>
+                        <p>La grande pyramide de Gizeh se trouve en Égypte, près du Caire. C'est la plus grande des trois pyramides de Gizeh et l'une des Sept Merveilles du monde antique. Elle a été construite pour le pharaon Khéops.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-item" data-exercise="3">
+                    <h3><i class="fas fa-scroll"></i> Exercice 3 : L'écriture égyptienne</h3>
+                    <p class="exercise-question">Comment s'appelle l'écriture des Égyptiens ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">L'alphabet</div>
+                        <div class="exercise-option" data-correct="true">Les hiéroglyphes</div>
+                        <div class="exercise-option" data-correct="false">Le cunéiforme</div>
+                        <div class="exercise-option" data-correct="false">L'alphabet grec</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Les hiéroglyphes</p>
+                        <p>Les Égyptiens utilisaient les hiéroglyphes, une écriture composée de signes pictographiques représentant des objets, des êtres vivants ou des concepts. Cette écriture était utilisée sur les monuments et dans les tombeaux.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-item" data-exercise="4">
+                    <h3><i class="fas fa-city"></i> Exercice 4 : La Grèce antique</h3>
+                    <p class="exercise-question">Quelle était la forme de gouvernement à Athènes ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">La monarchie</div>
+                        <div class="exercise-option" data-correct="true">La démocratie</div>
+                        <div class="exercise-option" data-correct="false">L'empire</div>
+                        <div class="exercise-option" data-correct="false">La tyrannie</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> La démocratie</p>
+                        <p>Athènes était une démocratie : les citoyens participaient aux décisions politiques. C'est à Athènes qu'est née la démocratie au Ve siècle avant J.-C. Les citoyens se réunissaient sur l'Agora pour débattre et voter.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-item" data-exercise="5">
+                    <h3><i class="fas fa-chess-rook"></i> Exercice 5 : Sparte</h3>
+                    <p class="exercise-question">Quelle était la particularité de Sparte ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">C'était une démocratie</div>
+                        <div class="exercise-option" data-correct="false">C'était un empire commercial</div>
+                        <div class="exercise-option" data-correct="true">C'était une ville militaire</div>
+                        <div class="exercise-option" data-correct="false">C'était un centre culturel</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> C'était une ville militaire</p>
+                        <p>Sparte était une cité guerrière : les Spartiates étaient entraînés dès l'enfance pour devenir des soldats. La société était organisée autour de l'armée et la discipline était très stricte.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-building-columns"></i> Exercice 6 : Rome</h3>
+                    <p class="exercise-question">Qui a fondé Rome selon la légende ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">César</div>
+                        <div class="exercise-option" data-correct="true">Romulus et Rémus</div>
+                        <div class="exercise-option" data-correct="false">Auguste</div>
+                        <div class="exercise-option" data-correct="false">Néron</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Romulus et Rémus</p>
+                        <p>Selon la légende, Rome a été fondée par Romulus et Rémus, deux frères élevés par une louve. Romulus aurait tué Rémus et donné son nom à la ville en 753 avant J.-C.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-crown"></i> Exercice 7 : Jules César</h3>
+                    <p class="exercise-question">Quelle fonction occupait Jules César ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Empereur</div>
+                        <div class="exercise-option" data-correct="true">Dictateur</div>
+                        <div class="exercise-option" data-correct="false">Sénateur</div>
+                        <div class="exercise-option" data-correct="false">Consul</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Dictateur</p>
+                        <p>Jules César a été nommé dictateur à vie en 44 avant J.-C. Il a conquis la Gaule et réformé l'État romain. Son assassinat par Brutus et Cassius a marqué la fin de la République romaine.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-torii"></i> Exercice 8 : La Mésopotamie</h3>
+                    <p class="exercise-question">Quelle civilisation s'est développée en Mésopotamie ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Les Égyptiens</div>
+                        <div class="exercise-option" data-correct="true">Les Sumériens</div>
+                        <div class="exercise-option" data-correct="false">Les Grecs</div>
+                        <div class="exercise-option" data-correct="false">Les Romains</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Les Sumériens</p>
+                        <p>Les Sumériens étaient l'une des premières civilisations de Mésopotamie (actuel Irak). Ils ont inventé l'écriture cunéiforme, les premières villes et le code de lois le plus ancien.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-scroll"></i> Exercice 9 : Le code d'Hammurabi</h3>
+                    <p class="exercise-question">Qu'est-ce que le code d'Hammurabi ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Un livre religieux</div>
+                        <div class="exercise-option" data-correct="true">Un code de lois</div>
+                        <div class="exercise-option" data-correct="false">Un poème épique</div>
+                        <div class="exercise-option" data-correct="false">Une carte géographique</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Un code de lois</p>
+                        <p>Le code d'Hammurabi est l'un des plus anciens codes de lois connus, rédigé vers 1750 avant J.-C. Il contient 282 lois gravées sur une stèle de pierre. C'est une source importante pour comprendre la société babylonienne.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-ship"></i> Exercice 10 : Les Phéniciens</h3>
+                    <p class="exercise-question">Que faisaient les Phéniciens ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Ils étaient des agriculteurs</div>
+                        <div class="exercise-option" data-correct="true">Ils étaient des commerçants et navigateurs</div>
+                        <div class="exercise-option" data-correct="false">Ils étaient des soldats</div>
+                        <div class="exercise-option" data-correct="false">Ils étaient des artisans</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Ils étaient des commerçants et navigateurs</p>
+                        <p>Les Phéniciens étaient un peuple de commerçants et de navigateurs de la Méditerranée. Ils ont fondé des comptoirs commerciaux comme Carthage et ont développé l'alphabet phénicien, à l'origine de notre alphabet.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="particles-config.js"></script>
+    
+    <!-- Auth.js -->
+    <script src="auth.js"></script>
+    
+    <script>
+        // Initialiser l'authentification
+        document.addEventListener('DOMContentLoaded', function() {
+            Auth.init();
+            initExercises();
+        });
+
+        // Initialiser les exercices
+        function initExercises() {
+            const exerciseItems = document.querySelectorAll('.exercise-item');
+
+            exerciseItems.forEach(item => {
+                const options = item.querySelectorAll('.exercise-option');
+                const checkBtn = item.querySelector('.check-btn');
+                const correction = item.querySelector('.exercise-correction');
+                const exerciseId = item.getAttribute('data-exercise');
+                let selectedOption = null;
+
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedOption = this;
+                    });
+                });
+
+                checkBtn.addEventListener('click', function() {
+                    if (!selectedOption) {
+                        alert('Veuillez sélectionner une réponse');
+                        return;
+                    }
+
+                    const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
+
+                    options.forEach(opt => {
+                        opt.classList.remove('selected');
+                        if (opt.getAttribute('data-correct') === 'true') {
+                            opt.classList.add('correct');
+                        } else if (opt === selectedOption && !isCorrect) {
+                            opt.classList.add('wrong');
+                        }
+                    });
+
+                    if (isCorrect) {
+                        if (Auth.isLoggedIn()) {
+                            Auth.saveProgression('histoire', 'antiquite', exerciseId, 1);
+                        }
+                    } else {
+                        if (Auth.isLoggedIn()) {
+                            Auth.saveProgression('histoire', 'antiquite', exerciseId, 0);
+                        }
+                    }
+
+                    correction.classList.add('show');
+                });
+            });
+
+            // Gestion de la pagination
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const paginationInfo = document.getElementById('paginationInfo');
+            const pages = document.querySelectorAll('.exercise-page');
+            let currentPage = 1;
+            const totalPages = pages.length;
+
+            function updatePagination() {
+                pages.forEach((page, index) => {
+                    if (index + 1 === currentPage) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+
+                paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updatePagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+
+            updatePagination();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temps Modernes - Histoire - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .exercise-item {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .exercise-question {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exercise-option {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--card-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .exercise-option:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .exercise-option.selected {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .exercise-option.wrong {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: #ff6b6b;
+            text-decoration: underline;
+            text-decoration-color: #ff6b6b;
+            text-decoration-thickness: 3px;
+            color: #ff6b6b;
+        }
+
+        .exercise-option.correct {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .exercise-correction {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .exercise-correction.show {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .exercise-correction h4 {
+            color: var(--secondary);
+            margin-bottom: 0.8rem;
+        }
+
+        .exercise-correction p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .check-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: var(--gradient-1);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark-bg);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .subject-header {
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .subject-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subject-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="progression.html" class="nav-link">Progression</a>
+            <div id="authButton"></div>
+        </div>
+    </nav>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+        <h1><i class="fas fa-crown"></i> Temps Modernes</h1>
+        <p>Teste tes connaissances sur les Temps Modernes</p>
+    </div>
+
+    <!-- Exercises Section -->
+    <section class="course-section">
+        <div class="container">
+            <a href="histoire-categories.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Retour aux catégories
+            </a>
+
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
+                <div class="exercise-item" data-exercise="1">
+                    <h3><i class="fas fa-palette"></i> Exercice 1 : La Renaissance</h3>
+                    <p class="exercise-question">Où est née la Renaissance ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">En France</div>
+                        <div class="exercise-option" data-correct="false">En Angleterre</div>
+                        <div class="exercise-option" data-correct="true">En Italie</div>
+                        <div class="exercise-option" data-correct="false">En Espagne</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> En Italie</p>
+                        <p>La Renaissance est née en Italie au XVe siècle, notamment à Florence. C'est un mouvement de renouveau culturel et artistique qui s'est ensuite étendu à toute l'Europe.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-item" data-exercise="2">
+                    <h3><i class="fas fa-compass"></i> Exercice 2 : Les grandes découvertes</h3>
+                    <p class="exercise-question">Qui a découvert l'Amérique en 1492 ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Vasco de Gama</div>
+                        <div class="exercise-option" data-correct="true">Christophe Colomb</div>
+                        <div class="exercise-option" data-correct="false">Magellan</div>
+                        <div class="exercise-option" data-correct="false">Jacques Cartier</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Christophe Colomb</p>
+                        <p>Christophe Colomb a découvert l'Amérique en 1492, en cherchant une route vers les Indes en naviguant vers l'ouest. Il a atteint les Caraïbes, croyant être aux Indes.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-item" data-exercise="3">
+                    <h3><i class="fas fa-print"></i> Exercice 3 : L'imprimerie</h3>
+                    <p class="exercise-question">Qui a inventé l'imprimerie ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Léonard de Vinci</div>
+                        <div class="exercise-option" data-correct="true">Gutenberg</div>
+                        <div class="exercise-option" data-correct="false">Galilée</div>
+                        <div class="exercise-option" data-correct="false">Copernic</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Gutenberg</p>
+                        <p>Gutenberg a inventé l'imprimerie vers 1450. Cette invention a révolutionné la diffusion du savoir en permettant de produire des livres en grand nombre et à moindre coût.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-item" data-exercise="4">
+                    <h3><i class="fas fa-globe"></i> Exercice 4 : Copernic</h3>
+                    <p class="exercise-question">Quelle théorie Copernic a-t-il proposée ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">La Terre est plate</div>
+                        <div class="exercise-option" data-correct="true">La Terre tourne autour du Soleil</div>
+                        <div class="exercise-option" data-correct="false">Le Soleil tourne autour de la Terre</div>
+                        <div class="exercise-option" data-correct="false">La Terre est le centre de l'univers</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> La Terre tourne autour du Soleil</p>
+                        <p>Copernic a proposé l'héliocentrisme : la Terre tourne autour du Soleil. Cette théorie a remis en cause le géocentrisme (la Terre au centre de l'univers) et a bouleversé la vision du monde.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-item" data-exercise="5">
+                    <h3><i class="fas fa-crown"></i> Exercice 5 : Louis XIV</h3>
+                    <p class="exercise-question">Comment s'appelait Louis XIV ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Le Roi Soleil</div>
+                        <div class="exercise-option" data-correct="true">Le Roi Soleil</div>
+                        <div class="exercise-option" data-correct="false">Le Roi Sage</div>
+                        <div class="exercise-option" data-correct="false">Le Roi Guerrier</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Le Roi Soleil</p>
+                        <p>Louis XIV, surnommé le Roi Soleil, a régné de 1643 à 1715. Il a construit le château de Versailles et a instauré la monarchie absolue : le roi détenait tous les pouvoirs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-scroll"></i> Exercice 6 : La Révolution française</h3>
+                    <p class="exercise-question">Quand a eu lieu la Révolution française ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">En 1688</div>
+                        <div class="exercise-option" data-correct="true">En 1789</div>
+                        <div class="exercise-option" data-correct="false">En 1815</div>
+                        <div class="exercise-option" data-correct="false">En 1848</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> En 1789</p>
+                        <p>La Révolution française a commencé en 1789 avec la prise de la Bastille. Elle a renversé la monarchie absolue et proclamé les droits de l'homme et du citoyen.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-flag"></i> Exercice 7 : La Déclaration des droits</h3>
+                    <p class="exercise-question">Qu'a proclamé la Déclaration des droits de l'homme ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">La monarchie absolue</div>
+                        <div class="exercise-option" data-correct="true">Les libertés et l'égalité</div>
+                        <div class="exercise-option" data-correct="false">La guerre</div>
+                        <div class="exercise-option" data-correct="false">L'esclavage</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Les libertés et l'égalité</p>
+                        <p>La Déclaration des droits de l'homme et du citoyen (1789) proclame les libertés fondamentales (liberté, propriété, sécurité) et l'égalité devant la loi. C'est un texte fondateur de la démocratie moderne.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-fist-raised"></i> Exercice 8 : Napoléon</h3>
+                    <p class="exercise-question">Qu'a fait Napoléon Bonaparte ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Il a restauré la monarchie</div>
+                        <div class="exercise-option" data-correct="true">Il a créé le Code civil</div>
+                        <div class="exercise-option" data-correct="false">Il a aboli l'esclavage</div>
+                        <div class="exercise-option" data-correct="false">Il a créé la démocratie</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Il a créé le Code civil</p>
+                        <p>Napoléon a créé le Code civil (1804) qui organise la société française. Il garantit l'égalité devant la loi, la liberté individuelle et la propriété. Ce code a influencé de nombreux pays.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-industry"></i> Exercice 9 : La Révolution industrielle</h3>
+                    <p class="exercise-question">Qu'est-ce que la Révolution industrielle ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">Une révolution politique</div>
+                        <div class="exercise-option" data-correct="true">Une transformation économique et technique</div>
+                        <div class="exercise-option" data-correct="false">Une révolution religieuse</div>
+                        <div class="exercise-option" data-correct="false">Une révolution culturelle</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> Une transformation économique et technique</p>
+                        <p>La Révolution industrielle (XVIIIe-XIXe siècle) a transformé l'économie grâce à la machine à vapeur, à l'industrie et aux nouvelles techniques. Elle a entraîné l'urbanisation et le développement du capitalisme.</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-ship"></i> Exercice 10 : La colonisation</h3>
+                    <p class="exercise-question">Qu'est-ce que la colonisation ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">L'indépendance des pays</div>
+                        <div class="exercise-option" data-correct="true">La domination de territoires par des puissances européennes</div>
+                        <div class="exercise-option" data-correct="false">Le commerce équitable</div>
+                        <div class="exercise-option" data-correct="false">La coopération internationale</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> La domination de territoires par des puissances européennes</p>
+                        <p>La colonisation est la domination de territoires par des puissances européennes (France, Angleterre, Espagne...) aux XIXe et XXe siècles. Elle a permis l'exploitation des ressources et le commerce.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="particles-config.js"></script>
+    
+    <!-- Auth.js -->
+    <script src="auth.js"></script>
+    
+    <script>
+        // Initialiser l'authentification
+        document.addEventListener('DOMContentLoaded', function() {
+            Auth.init();
+            initExercises();
+        });
+
+        // Initialiser les exercices
+        function initExercises() {
+            const exerciseItems = document.querySelectorAll('.exercise-item');
+
+            exerciseItems.forEach(item => {
+                const options = item.querySelectorAll('.exercise-option');
+                const checkBtn = item.querySelector('.check-btn');
+                const correction = item.querySelector('.exercise-correction');
+                const exerciseId = item.getAttribute('data-exercise');
+                let selectedOption = null;
+
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        options.forEach(opt => opt.classList.remove('selected'));
+                        this.classList.add('selected');
+                        selectedOption = this;
+                    });
+                });
+
+                checkBtn.addEventListener('click', function() {
+                    if (!selectedOption) {
+                        alert('Veuillez sélectionner une réponse');
+                        return;
+                    }
+
+                    const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
+
+                    options.forEach(opt => {
+                        opt.classList.remove('selected');
+                        if (opt.getAttribute('data-correct') === 'true') {
+                            opt.classList.add('correct');
+                        } else if (opt === selectedOption && !isCorrect) {
+                            opt.classList.add('wrong');
+                        }
+                    });
+
+                    if (isCorrect) {
+                        if (Auth.isLoggedIn()) {
+                            Auth.saveProgression('histoire', 'temps-modernes', exerciseId, 1);
+                        }
+                    } else {
+                        if (Auth.isLoggedIn()) {
+                            Auth.saveProgression('histoire', 'temps-modernes', exerciseId, 0);
+                        }
+                    }
+
+                    correction.classList.add('show');
+                });
+            });
+
+            // Gestion de la pagination
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const paginationInfo = document.getElementById('paginationInfo');
+            const pages = document.querySelectorAll('.exercise-page');
+            let currentPage = 1;
+            const totalPages = pages.length;
+
+            function updatePagination() {
+                pages.forEach((page, index) => {
+                    if (index + 1 === currentPage) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+
+                paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+            }
+
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updatePagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updatePagination();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+
+            updatePagination();
+        }
+    </script>
+</body>
+</html>

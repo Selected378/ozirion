@@ -142,6 +142,49 @@
             color: var(--text-secondary);
             font-size: 1.2rem;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+
+        .pagination-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .pagination-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .exercise-page {
+            display: none;
+        }
+
+        .exercise-page.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -194,7 +237,9 @@
                 Retour aux catégories
             </a>
 
-            <!-- Exercise 1 -->
+            <!-- Page 1 -->
+            <div class="exercise-page active" data-page="1">
+                <!-- Exercise 1 -->
             <div class="exercise-item" data-exercise="1">
                 <h3><i class="fas fa-percent"></i> Exercice 1 : Pourcentage simple</h3>
                 <p class="exercise-question">50% de 80€ = ?</p>
@@ -296,6 +341,116 @@
                     <p><strong>Alternative :</strong> 1200 × (1 + 0,1) = 1200 × 1,1 = 1320€</p>
                 </div>
             </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="exercise-page" data-page="2">
+                <!-- Exercise 6 -->
+                <div class="exercise-item" data-exercise="6">
+                    <h3><i class="fas fa-percent"></i> Exercice 6 : Pourcentage de pourcentage</h3>
+                    <p class="exercise-question">25% de 200€ = ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">40€</div>
+                        <div class="exercise-option" data-correct="false">45€</div>
+                        <div class="exercise-option" data-correct="true">50€</div>
+                        <div class="exercise-option" data-correct="false">55€</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 50€</p>
+                        <p><strong>Calcul :</strong> 200 × 25/100 = 200 × 0,25 = 50€</p>
+                        <p><strong>Astuce :</strong> 25% = 1/4, donc 200 ÷ 4 = 50€</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item" data-exercise="7">
+                    <h3><i class="fas fa-percent"></i> Exercice 7 : Pourcentage avec nombre décimal</h3>
+                    <p class="exercise-question">5% de 300€ = ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">10€</div>
+                        <div class="exercise-option" data-correct="false">12€</div>
+                        <div class="exercise-option" data-correct="true">15€</div>
+                        <div class="exercise-option" data-correct="false">18€</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 15€</p>
+                        <p><strong>Calcul :</strong> 300 × 5/100 = 300 × 0,05 = 15€</p>
+                        <p><strong>Astuce :</strong> 5% = 1/20, donc 300 ÷ 20 = 15€</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item" data-exercise="8">
+                    <h3><i class="fas fa-percent"></i> Exercice 8 : Double réduction</h3>
+                    <p class="exercise-question">Un article coûte 200€. Avec une réduction de 50%, quel est le nouveau prix ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">90€</div>
+                        <div class="exercise-option" data-correct="false">95€</div>
+                        <div class="exercise-option" data-correct="true">100€</div>
+                        <div class="exercise-option" data-correct="false">105€</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 100€</p>
+                        <p><strong>Calcul :</strong> 200 × 50/100 = 200 × 0,5 = 100€</p>
+                        <p><strong>Astuce :</strong> 50% = la moitié, donc 200 ÷ 2 = 100€</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 9 -->
+                <div class="exercise-item" data-exercise="9">
+                    <h3><i class="fas fa-percent"></i> Exercice 9 : Pourcentage supérieur à 100</h3>
+                    <p class="exercise-question">150% de 40€ = ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">50€</div>
+                        <div class="exercise-option" data-correct="false">55€</div>
+                        <div class="exercise-option" data-correct="true">60€</div>
+                        <div class="exercise-option" data-correct="false">65€</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 60€</p>
+                        <p><strong>Calcul :</strong> 40 × 150/100 = 40 × 1,5 = 60€</p>
+                        <p><strong>Astuce :</strong> 150% = 1,5 fois, donc 40 × 1,5 = 60€</p>
+                    </div>
+                </div>
+
+                <!-- Exercise 10 -->
+                <div class="exercise-item" data-exercise="10">
+                    <h3><i class="fas fa-percent"></i> Exercice 10 : Pourcentage d'un pourcentage</h3>
+                    <p class="exercise-question">75% de 80€ = ?</p>
+                    <div class="exercise-options">
+                        <div class="exercise-option" data-correct="false">50€</div>
+                        <div class="exercise-option" data-correct="false">55€</div>
+                        <div class="exercise-option" data-correct="true">60€</div>
+                        <div class="exercise-option" data-correct="false">65€</div>
+                    </div>
+                    <button class="check-btn">Vérifier</button>
+                    <div class="exercise-correction">
+                        <h4><i class="fas fa-check-circle"></i> Correction</h4>
+                        <p><strong>Bonne réponse :</strong> 60€</p>
+                        <p><strong>Calcul :</strong> 80 × 75/100 = 80 × 0,75 = 60€</p>
+                        <p><strong>Astuce :</strong> 75% = 3/4, donc 80 × 3/4 = 60€</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Précédent
+                </button>
+                <span class="pagination-info" id="paginationInfo">Page 1/2</span>
+                <button class="pagination-btn" id="nextBtn">
+                    Suivant <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -379,6 +534,46 @@
                 correction.classList.add('show');
             });
         });
+
+        // Gestion de la pagination
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pages = document.querySelectorAll('.exercise-page');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePagination() {
+            pages.forEach((page, index) => {
+                if (index + 1 === currentPage) {
+                    page.classList.add('active');
+                } else {
+                    page.classList.remove('active');
+                }
+            });
+
+            paginationInfo.textContent = `Page ${currentPage}/${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePagination();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        updatePagination();
     </script>
 </body>
 </html>

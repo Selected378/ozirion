@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histoire - Catégories - Brevet Pro Boost</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .categories-container {
+            padding: 8rem 2rem 4rem;
+        }
+
+        .categories-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .categories-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .categories-header p {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            color: var(--dark-bg);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover .category-icon {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .category-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            margin-top: 1.5rem;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient-1);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Brevet Pro Boost</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="progression.html" class="nav-link">Progression</a>
+            <div id="authButton"></div>
+        </div>
+    </nav>
+
+    <!-- Categories Section -->
+    <section class="categories-container">
+        <div class="categories-header">
+            <h1><i class="fas fa-landmark"></i> Histoire</h1>
+            <p>Choisis une catégorie pour commencer les exercices</p>
+        </div>
+
+        <div class="categories-grid">
+            <!-- Category 1 -->
+            <div class="category-card" onclick="window.location.href='histoire-antiquite.html'">
+                <div class="category-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h3>Antiquité</h3>
+                <p>Découvre les grandes civilisations de l'Antiquité : Égypte, Grèce, Rome...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-antiquite" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progress-text-antiquite">0% complété</div>
+            </div>
+
+            <!-- Category 2 -->
+            <div class="category-card" onclick="window.location.href='histoire-moyen-age.html'">
+                <div class="category-icon">
+                    <i class="fas fa-chess-rook"></i>
+                </div>
+                <h3>Moyen Âge</h3>
+                <p>Explore le Moyen Âge : les rois, les chevaliers, les croisades...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-moyen-age" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progress-text-moyen-age">0% complété</div>
+            </div>
+
+            <!-- Category 3 -->
+            <div class="category-card" onclick="window.location.href='histoire-temps-modernes.html'">
+                <div class="category-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h3>Temps Modernes</h3>
+                <p>Les Temps Modernes : la Renaissance, les découvertes, les révolutions...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-temps-modernes" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progress-text-temps-modernes">0% complété</div>
+            </div>
+
+            <!-- Category 4 -->
+            <div class="category-card" onclick="window.location.href='histoire-xxe.html'">
+                <div class="category-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+                <h3>XXe Siècle</h3>
+                <p>Le XXe siècle : les guerres mondiales, la décolonisation, la construction européenne...</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-xxe" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progress-text-xxe">0% complété</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Brevet Pro Boost</span>
+                </div>
+                <p>© 2024 Brevet Pro Boost. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="particles-config.js"></script>
+    
+    <!-- Auth.js -->
+    <script src="auth.js"></script>
+    
+    <script>
+        // Initialiser l'authentification
+        document.addEventListener('DOMContentLoaded', function() {
+            Auth.init();
+            loadProgression();
+        });
+
+        // Charger la progression
+        function loadProgression() {
+            const user = Auth.getCurrentUser();
+            if (!user) return;
+
+            const progression = JSON.parse(localStorage.getItem(Auth.PROGRESSION_KEY));
+            if (!progression || !progression[user.id]) return;
+
+            const userProgression = progression[user.id];
+            
+            // Charger la progression pour chaque catégorie
+            const categories = ['antiquite', 'moyen-age', 'temps-modernes', 'xxe'];
+            
+            categories.forEach(category => {
+                if (userProgression['histoire'] && userProgression['histoire'][category]) {
+                    const exercises = userProgression['histoire'][category];
+                    const totalExercises = Object.keys(exercises).length;
+                    const completedExercises = Object.values(exercises).filter(e => e.score === 1).length;
+                    const percentage = totalExercises > 0 ? Math.round((completedExercises / totalExercises) * 100) : 0;
+                    
+                    const progressBar = document.getElementById(`progress-${category}`);
+                    const progressText = document.getElementById(`progress-text-${category}`);
+                    
+                    if (progressBar) {
+                        progressBar.style.width = `${percentage}%`;
+                    }
+                    if (progressText) {
+                        progressText.textContent = `${percentage}% complété`;
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
